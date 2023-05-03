@@ -1,9 +1,11 @@
-= what is this
-short term: a place for me to learn and rough out minimal examples of fastly products with terraform
-medium term: a foundation on which to build live product demonstrations
-long term: a resource for managing bespoke partner demonstration environments
+# fsly demo
 
-= pre-reqs
+## what is this
+- short term: a place for me to learn and rough out minimal examples of fastly products with terraform
+- medium term: a foundation on which to build live product demonstrations
+- long term: a resource for managing bespoke partner demonstration environments
+
+## pre-reqs
 - a fastly account
 - an api key from that account
 - the fastly cli installed and configured with the key
@@ -13,7 +15,7 @@ long term: a resource for managing bespoke partner demonstration environments
 - the gcloud cli tool installed and authenticated
 - terraform
 
-= howto
+## howto
 - clone this repo and cd into it
 - `cp .env.example to .env`
 - edit `.env` and populate the variables
@@ -22,7 +24,7 @@ long term: a resource for managing bespoke partner demonstration environments
 - `terraform apply`
 - if you get an error about the ngwaf "link" run apply again (?? FIXME)
 
-= wishlist
+## wishlist
 - integrate dcorbett's sqli demo
 - figure out how to demonstrate purging
 - figure out how to demonstrate edge rate limiting
