@@ -7,7 +7,7 @@ module "fastly" {
 module "sigsci" {
   source     = "./modules/sigsci"
   fastly_sid = module.fastly.fastly_sid
-  site_name = var.site_name
+  site_name  = var.site_name
 }
 
 module "google" {

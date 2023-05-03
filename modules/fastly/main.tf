@@ -2,7 +2,7 @@ resource "fastly_service_vcl" "demo_service" {
   name = var.site_name
 
   domain {
-    name    = "${var.site_name}.global.ssl.fastly.net"
+    name = "${var.site_name}.global.ssl.fastly.net"
   }
 
   backend {
@@ -53,9 +53,9 @@ resource "fastly_service_vcl" "demo_service" {
     type = "deliver"
   }
 
-#  lifecycle {
-#    ignore_changes = [product_enablement]
-#  }
+  #  lifecycle {
+  #    ignore_changes = [product_enablement]
+  #  }
 
   force_destroy = true
 }

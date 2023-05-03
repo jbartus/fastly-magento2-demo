@@ -6,7 +6,7 @@ resource "sigsci_site" "demo_site" {
 
 resource "sigsci_edge_deployment" "ngwaf_edge_demo" {
   site_short_name = var.site_name
-  depends_on = [ sigsci_site.demo_site ]
+  depends_on      = [sigsci_site.demo_site]
 }
 
 resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
@@ -14,5 +14,5 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   fastly_sid       = var.fastly_sid
   activate_version = true
   percent_enabled  = 100
-  depends_on = [ sigsci_edge_deployment.ngwaf_edge_demo ]
+  depends_on       = [sigsci_edge_deployment.ngwaf_edge_demo]
 }
