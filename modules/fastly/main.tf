@@ -53,9 +53,5 @@ resource "fastly_service_vcl" "demo_service" {
     type = "deliver"
   }
 
-  #  lifecycle {
-  #    ignore_changes = [product_enablement]
-  #  }
-
   force_destroy = true
 }
