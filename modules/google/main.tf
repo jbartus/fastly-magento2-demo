@@ -1,11 +1,5 @@
-provider "google" {
-  project = "se-development-9566"
-  region  = "us-central1"
-  zone    = "us-central1-c"
-}
-
-resource "google_compute_instance" "jbartus-tfdemo" {
-  name         = "jbartus-tfdemo"
+resource "google_compute_instance" "demo_origin_instance" {
+  name         = "${var.site_name}-origin"
   machine_type = "e2-medium"
   boot_disk {
     initialize_params {

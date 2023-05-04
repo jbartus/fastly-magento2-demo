@@ -12,4 +12,5 @@ module "sigsci" {
 
 module "google" {
   source = "./modules/google"
+  site_name = var.site_name
 }
