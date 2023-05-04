@@ -17,7 +17,7 @@
 
 ## howto
 - clone this repo and cd into it
-- `cp .env.example to .env`
+- `cp .env.example .env`
 - edit `.env` and populate the variables
 - `source .env`
 - `terraform init`
