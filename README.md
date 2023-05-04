@@ -9,16 +9,18 @@
 - a fastly account
 - an api key from that account
 - the fastly cli installed and configured with the key
+`fastly whoami`
 - a sigsci account (corp)
 - an api key from that corp
 - a GCP account
 - the gcloud cli tool installed and authenticated
+`gcloud auth application-default login`
 - terraform
 
 ## howto
 - clone this repo and cd into it
 - `cp .env.example .env`
-- edit `.env` and populate the variables
+- edit `.env` and populate the three `SIGSCI_` variables
 - `source .env`
 - `terraform init`
 - `terraform apply`
