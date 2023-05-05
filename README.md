@@ -24,7 +24,6 @@
 - `source .env`
 - `terraform init`
 - `terraform apply`
-- if you get an error about the ngwaf "link" run apply again (?? FIXME)
 
 ## wishlist
 - integrate dcorbett's sqli demo
