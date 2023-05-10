@@ -7,7 +7,7 @@ resource "fastly_service_vcl" "demo_service" {
 
   backend {
     address = var.origin_ip
-    name    = "localhost"
+    name    = "${var.site_name}-origin"
     port    = 80
   }
 
