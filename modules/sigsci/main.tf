@@ -9,8 +9,8 @@ resource "sigsci_edge_deployment" "ngwaf_edge_demo" {
   depends_on      = [sigsci_site.demo_site]
 }
 
-resource "time_sleep" "sleep_60" {
-  create_duration = "60s"
+resource "time_sleep" "wait_for_waf" {
+  create_duration = "90s"
   depends_on      = [sigsci_edge_deployment.ngwaf_edge_demo]
 }
 
@@ -19,5 +19,5 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   fastly_sid       = var.fastly_sid
   activate_version = true
   percent_enabled  = 100
-  depends_on       = [time_sleep.sleep_60]
+  depends_on       = [time_sleep.wait_for_waf]
 }
