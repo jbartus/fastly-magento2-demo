@@ -35,3 +35,8 @@ terraform.rc
 
 # ignore .env as it contains api keys
 .env
+
+# deliberately ignore the version locks
+# this repo is not meant (yet) for a long-lived environment
+# better to keep fresh than lock in backward compatability
+.terraform.lock.hcl
