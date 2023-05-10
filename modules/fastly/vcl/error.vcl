@@ -1,14 +1,18 @@
 if (obj.status == 600 ) {
-  set obj.http.Content-Type = "text/html";
-  synthetic {"<html><head><title>demo</title></head>
-  <body><h1>welcome</h1><p>to a demo page</p><table border="1">
-  <tr><td>vcl version</td><td>"} req.vcl.version {"</td></tr>
-  <tr><td>client ip</td><td>"} client.ip {"</td></tr>
-  <tr><td>as name</td><td>"} client.as.name {"</td></tr>
-  <tr><td>pop</td><td>"} server.datacenter {"</td></tr>
-  <tr><td>region</td><td>"} server.region {"</td></tr>
-  </table></body></html>"};
-  return(deliver);
+  synthetic {"{
+    "as": {
+      "name": ""} json.escape(client.as.name) {""
+    },
+    "geo": {
+      "city": ""} json.escape(client.geo.city) {"",
+      "latitude": ""} json.escape(client.geo.latitude) {"",
+      "longitude": ""} json.escape(client.geo.longitude) {""
+    }
+  }"};
+  set obj.status = 200;
+  set obj.response = "OK";
+  set obj.http.Content-Type = "application/json";
+  return (deliver);
 }
 
 if (obj.status == 601 ) {

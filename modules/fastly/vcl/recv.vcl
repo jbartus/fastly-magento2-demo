@@ -1,5 +1,5 @@
 if(req.method == "GET"){
-  if(req.url.path == "/syn" ) {
+  if(req.url.path == "/geo" ) {
     error 600;
   }
   if(req.url.path == "/favicon.ico"){
