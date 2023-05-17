@@ -14,3 +14,8 @@ module "google" {
   source    = "./modules/google"
   site_name = var.site_name
 }
+
+#module "fastly-wasm" {
+#  source    = "./modules/fastly-wasm"
+#  site_name = var.site_name
+#}
