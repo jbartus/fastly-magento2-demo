@@ -10,3 +10,7 @@ if(req.method == "GET"){
 if(req.url ~ "/pass"){
   return(pass);
 }
+
+if(querystring.get(req.url, "io") && req.url.ext ~ "(?i)^(gif|png|jpe?g|webp)$") {
+	set req.http.x-fastly-imageopto-api = "fastly";
+}

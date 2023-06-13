@@ -9,6 +9,7 @@ resource "fastly_service_vcl" "demo_service" {
     address = var.origin_ip
     name    = "${var.site_name}-origin"
     port    = 80
+    shield  = "ewr-nj-us"
   }
 
   snippet {
@@ -51,6 +52,10 @@ resource "fastly_service_vcl" "demo_service" {
   dynamicsnippet {
     name = "ngwaf_config_deliver"
     type = "deliver"
+  }
+
+  product_enablement {
+    image_optimizer = true
   }
 
   force_destroy = true

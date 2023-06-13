@@ -6,7 +6,7 @@
 - long term: a resource for managing bespoke partner demonstration environments
 
 ## pre-reqs
-- a fastly account
+- a fastly account (with `io_entitlement` feature flag)
 - an api key from that account
 - the fastly cli installed and configured with the key
 `fastly whoami`
@@ -32,5 +32,4 @@
 - figure out how to demonstrate live stats and logs
 - figure out how to demonstrate fast config changes
 - figure out how to demonstrate websockets
-- figure out how to demonstrate i/o
 - figure out how to demonstrate the frustration of latency
