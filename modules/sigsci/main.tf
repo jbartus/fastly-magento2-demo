@@ -9,7 +9,7 @@ resource "sigsci_edge_deployment" "ngwaf_edge_demo" {
 }
 
 resource "time_sleep" "wait_for_waf" {
-  create_duration = "90s"
+  create_duration = "100s"
   depends_on      = [sigsci_edge_deployment.ngwaf_edge_demo]
 }
 
