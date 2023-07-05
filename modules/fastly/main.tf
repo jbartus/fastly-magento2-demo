@@ -13,6 +13,12 @@ resource "fastly_service_vcl" "demo_service" {
   }
 
   snippet {
+    name    = "init"
+    type    = "init"
+    content = file("${path.module}/vcl/init.vcl")
+  }
+
+  snippet {
     name    = "recv"
     type    = "recv"
     content = file("${path.module}/vcl/recv.vcl")
