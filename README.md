@@ -6,7 +6,7 @@
 - long term: a resource for managing bespoke partner demonstration environments
 
 ## pre-reqs
-- a fastly account (with `io_entitlement` feature flag)
+- a fastly account (with `io_entitlement` and `rate_limiting` feature flags)
 - an api key from that account
 - the fastly cli installed and configured with the key
 `fastly whoami`
