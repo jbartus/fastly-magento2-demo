@@ -16,6 +16,7 @@
 - the gcloud cli tool installed and authenticated
 `gcloud auth application-default login`
 - terraform
+- vegeta
 
 ## howto
 - clone this repo and cd into it
