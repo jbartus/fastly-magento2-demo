@@ -1,3 +1,7 @@
+#######################################################################
+## a linux VM on GCP to serve as the origin webserver
+#######################################################################
+
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
   machine_type = "e2-medium"
@@ -13,6 +17,10 @@ resource "google_compute_instance" "demo_origin_instance" {
   tags                    = ["http-server"]
   metadata_startup_script = file("vm-init.sh")
 }
+
+#######################################################################
+## a fastly delivery service 
+#######################################################################
 
 resource "fastly_service_vcl" "demo_service" {
   name = var.site_name
@@ -83,6 +91,10 @@ resource "fastly_service_vcl" "demo_service" {
   force_destroy = true
 }
 
+#######################################################################
+## sigsci site and ngwaf@edge config 
+#######################################################################
+
 resource "sigsci_site" "demo_site" {
   display_name = var.site_name
   short_name   = var.site_name
@@ -99,6 +111,10 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   activate_version = true
   percent_enabled  = 100
 }
+
+#######################################################################
+## example javascript compute@edge application 
+#######################################################################
 
 /*
 resource "fastly_service_compute" "demo" {
