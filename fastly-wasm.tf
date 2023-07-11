@@ -1,3 +1,4 @@
+/*
 resource "fastly_service_compute" "demo" {
   name = "${var.site_name}-wasm"
 
@@ -22,3 +23,4 @@ resource "fastly_service_compute" "demo" {
 
   force_destroy = true
 }
+*/

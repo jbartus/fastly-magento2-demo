@@ -1,4 +1,4 @@
 output "fastly_sid" {
   description = "fastly service ID"
-  value       = module.fastly.fastly_sid
+  value       = fastly_service_vcl.demo_service.id
 }

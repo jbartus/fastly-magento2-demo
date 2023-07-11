@@ -11,5 +11,5 @@ resource "google_compute_instance" "demo_origin_instance" {
     access_config {}
   }
   tags                    = ["http-server"]
-  metadata_startup_script = file("${path.module}/init.sh")
+  metadata_startup_script = file("init.sh")
 }
