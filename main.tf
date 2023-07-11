@@ -11,7 +11,7 @@ resource "google_compute_instance" "demo_origin_instance" {
     access_config {}
   }
   tags                    = ["http-server"]
-  metadata_startup_script = file("init.sh")
+  metadata_startup_script = file("vm-init.sh")
 }
 
 resource "fastly_service_vcl" "demo_service" {
