@@ -25,6 +25,11 @@
 - `source .env`
 - `terraform init`
 - `terraform apply`
+- generate a read-only fastly api token and put it in `./edgeapp/.secret`
+- `./bin/secrets-apply.sh`
+- do your thing
+- `./bin/secrets-destroy.sh`
+- `terraform destroy`
 
 ## wishlist
 - integrate dcorbett's sqli demo
