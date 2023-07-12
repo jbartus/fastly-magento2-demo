@@ -1,0 +1,25 @@
+# This file describes a Fastly Compute@Edge package. To learn more visit:
+# https://developer.fastly.com/reference/fastly-toml/
+
+authors = ["none"]
+description = ""
+language = "javascript"
+manifest_version = 3
+name = "edgeapp"
+service_id = ""
+
+[local_server]
+
+  [local_server.backends]
+
+    [local_server.backends.fastlyapi]
+      url = "https://api.fastly.com"
+
+  [local_server.secret_stores]
+
+    [[local_server.secret_stores.secrets]]
+      file = ".secrets"
+      key = "fastly-key"
+
+[scripts]
+  build = "npm run build"
