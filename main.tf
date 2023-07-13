@@ -116,7 +116,6 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
 ## example javascript compute@edge application 
 #######################################################################
 
-/*
 resource "fastly_service_compute" "demo" {
   name = "${var.site_name}-wasm"
 
@@ -125,8 +124,8 @@ resource "fastly_service_compute" "demo" {
   }
 
   package {
-    filename         = "..//globe/pkg/globe.tar.gz"
-    source_code_hash = filesha512("../globe/pkg/globe.tar.gz")
+    filename         = "edgeapp/pkg/edgeapp.tar.gz"
+    source_code_hash = filesha512("edgeapp/pkg/edgeapp.tar.gz")
   }
 
   backend {
@@ -141,4 +140,3 @@ resource "fastly_service_compute" "demo" {
 
   force_destroy = true
 }
-*/
