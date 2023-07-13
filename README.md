@@ -17,6 +17,7 @@
 `gcloud auth application-default login`
 - terraform
 - vegeta
+- jq
 
 ## howto
 - clone this repo and cd into it
