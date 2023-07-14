@@ -2,6 +2,7 @@
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": {
     "ghcr.io/devcontainers/features/terraform:1": {},
-    "ghcr.io/mpriscella/features/fastly:1": {}
+    "ghcr.io/mpriscella/features/fastly:1": {},
+    "ghcr.io/dhoeric/features/google-cloud-cli:1": {}
   }
 }
