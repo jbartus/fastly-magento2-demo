@@ -24,9 +24,9 @@
 - `terraform init`
 - `cp .env.example .env`
 - edit `.env` and populate the three `SIGSCI_` variables
-- `source .env`
 - generate a read-only fastly api token and put it in `./edgeapp/.secret`
 ### test loop
+- `source .env`
 - `source bin/secrets-apply.sh`
 - `terraform apply`
 - do your thing
