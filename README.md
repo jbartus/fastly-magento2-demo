@@ -7,10 +7,8 @@
 
 ## pre-reqs
 - a fastly account (with `io_entitlement` and `rate_limiting` feature flags)
-- the fastly cli
-- two api tokens from that account
--- one with global api access and engineer or higher permission (for the cli)
--- a second with read-only access and user or higher permission (for the edgeapp)
+- the fastly cli, configured with an api token with engineer or higher permission
+- another api token with read-only access and user or higher permission (for the edgeapp)
 - a sigsci account (corp)
 - an api key from that corp
 - a GCP account
