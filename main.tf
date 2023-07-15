@@ -139,7 +139,7 @@ resource "fastly_service_compute" "demo" {
   }
 
   resource_link {
-    name = "secrets"
+    name        = "secrets"
     resource_id = var.store_id
   }
 
