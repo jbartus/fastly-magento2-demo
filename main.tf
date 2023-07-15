@@ -138,5 +138,10 @@ resource "fastly_service_compute" "demo" {
     use_ssl           = true
   }
 
+  resource_link {
+    name = "secrets"
+    resource_id = var.store_id
+  }
+
   force_destroy = true
 }
