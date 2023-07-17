@@ -7,9 +7,8 @@
 
 ## pre-reqs
 - a fastly account (with `io_entitlement` and `rate_limiting` feature flags)
-- an api key from that account
-- the fastly cli installed and configured with the key
-`fastly whoami`
+- the fastly cli, configured with an api token with engineer or higher permission
+- another api token with read-only access and user or higher permission (for the edgeapp)
 - a sigsci account (corp)
 - an api key from that corp
 - a GCP account
@@ -20,17 +19,19 @@
 - jq
 
 ## howto
+### first time setup
 - clone this repo and cd into it
+- `terraform init`
 - `cp .env.example .env`
 - edit `.env` and populate the three `SIGSCI_` variables
+- put the read-only api token in `./edgeapp/.secret`
+### test loop
 - `source .env`
-- `terraform init`
+- `source bin/secrets-apply.sh`
 - `terraform apply`
-- generate a read-only fastly api token and put it in `./edgeapp/.secret`
-- `./bin/secrets-apply.sh`
 - do your thing
-- `./bin/secrets-destroy.sh`
 - `terraform destroy`
+- `./bin/secrets-destroy.sh`
 
 ## wishlist
 - integrate dcorbett's sqli demo
