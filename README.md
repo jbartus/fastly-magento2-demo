@@ -23,7 +23,10 @@
 - clone this repo and cd into it
 - `terraform init`
 - `cp .env.example .env`
-- edit `.env` and populate the three `SIGSCI_` variables
+- edit `.env`
+-- populate the two `TF_VAR_magento_repo` variables (see: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html)
+-- populate the three `SIGSCI_` variables
+-- validate the `gcloud` commands have the underlying values configured
 - put the read-only api token in `./edgeapp/.secret`
 ### test loop
 - `source .env`

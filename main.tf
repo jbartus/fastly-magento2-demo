@@ -4,10 +4,10 @@
 
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
-  machine_type = "e2-medium"
+  machine_type = "n2-standard-2"
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"
+      image = "ubuntu-os-cloud/ubuntu-2210-amd64"
     }
   }
   network_interface {
@@ -15,7 +15,10 @@ resource "google_compute_instance" "demo_origin_instance" {
     access_config {}
   }
   tags                    = ["http-server"]
-  metadata_startup_script = file("vm-init.sh")
+  metadata_startup_script = templatefile("vm-init.sh.tftpl", { magento_repo_user = var.magento_pub_key, magento_repo_pass = var.magento_priv_key })
+  metadata = {
+    ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
+  }
 }
 
 #######################################################################
@@ -113,8 +116,41 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
 }
 
 #######################################################################
+## setup magento
+## 
+## this needs to be its own dummy-resource + provisioner because
+## the vcl service depends on the gcp vm ip as an origin, so terraform
+## creates the vm first and the service second.  that means the service
+## id doesn't exist yet when the vm init script runs.
+#######################################################################
+
+resource "terraform_data" "magento_plugin_conf" {
+  connection {
+    type        = "ssh"
+    user        = "root"
+    private_key = file("~/.ssh/id_rsa")
+    host        = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      # wait until everything is installed
+      "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 30; done",
+      "cd /var/www/magento",
+      "bin/magento fastly:conf:set --enable --service-id ${fastly_service_vcl.demo_service.id} --token FIXME --test-connection --cache", # --upload-vcl --activate
+    ]
+  }
+  # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
+  depends_on = [ sigsci_edge_deployment_service.ngwaf_edge_demo_link ]
+}
+
+#######################################################################
 ## example javascript compute@edge application 
 #######################################################################
+
+data "fastly_package_hash" "edgeapp" {
+  filename = "edgeapp/pkg/edgeapp.tar.gz"
+}
 
 resource "fastly_service_compute" "demo" {
   name = "${var.site_name}-wasm"
@@ -125,7 +161,7 @@ resource "fastly_service_compute" "demo" {
 
   package {
     filename         = "edgeapp/pkg/edgeapp.tar.gz"
-    source_code_hash = filesha512("edgeapp/pkg/edgeapp.tar.gz")
+    source_code_hash = data.fastly_package_hash.edgeapp.hash
   }
 
   backend {
