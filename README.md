@@ -24,10 +24,11 @@
 - `terraform init`
 - `cp .env.example .env`
 - edit `.env`
--- populate the two `TF_VAR_magento_repo` variables (see: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html)
--- populate the three `SIGSCI_` variables
--- validate the `gcloud` commands have the underlying values configured
-- put the read-only api token in `./edgeapp/.secret`
+  - populate the two `TF_VAR_magento_repo` variables (see: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html)
+  - populate the three `SIGSCI_` variables
+  - validate the `gcloud` commands have the underlying values configured
+- put the read-only api token in `edgeapp/.secret`
+- TEMPORARY/AWFUL: replace the 'FIXME' on line 140 of main.tf with your fastly cli token (same from cli)
 ### test loop
 - `source .env`
 - `source bin/secrets-apply.sh`
