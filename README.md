@@ -21,6 +21,10 @@
 ## howto
 ### first time setup
 - clone this repo and cd into it
+- TEMP: checkout this (magento) branch instead of main  
+`git branch -a`
+`git checkout magento`
+`git pull` (should probably show nothing)
 - `terraform init`
 - `cp .env.example .env`
 - edit `.env`
