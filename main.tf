@@ -116,6 +116,10 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
 ## example javascript compute@edge application 
 #######################################################################
 
+data "fastly_package_hash" "edgeapp" {
+  filename = "edgeapp/pkg/edgeapp.tar.gz"
+}
+
 resource "fastly_service_compute" "demo" {
   name = "${var.site_name}-wasm"
 
@@ -125,7 +129,7 @@ resource "fastly_service_compute" "demo" {
 
   package {
     filename         = "edgeapp/pkg/edgeapp.tar.gz"
-    source_code_hash = filesha512("edgeapp/pkg/edgeapp.tar.gz")
+    source_code_hash = data.fastly_package_hash.edgeapp.hash
   }
 
   backend {
