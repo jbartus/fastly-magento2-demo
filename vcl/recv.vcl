@@ -1,4 +1,4 @@
-if(fastly.ff.visits_this_service == 0 && ratelimit.check_rate(client.ip, demo_rc, 1, 1, 100, demo_pb, 1m)){
+if(fastly.ff.visits_this_service == 0 && ratelimit.check_rate(client.ip, demo_rc, 1, 10, 200, demo_pb, 1m)){
   error 429 "Too Many Requests";
 }
 

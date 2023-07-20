@@ -36,7 +36,8 @@ chmod u+x bin/magento
 
 # "install" magento by setting up its config (note this is one big multiline command)
 bin/magento setup:install \
---base-url=http://$(curl -s ifconfig.io)/ \
+--base-url=https://${base_url}/ \
+--backend-frontname="admin_fsly" \
 --db-host=localhost \
 --db-name=magento \
 --db-user=magento \
@@ -59,6 +60,10 @@ bin/magento setup:install \
 # some magento stuff
 bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth
 bin/magento module:disable Magento_TwoFactorAuth
+bin/magento sampledata:deploy
+bin/magento media-gallery:sync
+bin/magento media-content:sync
+bin/magento setup:upgrade
 bin/magento setup:di:compile
 bin/magento cache:flush
 

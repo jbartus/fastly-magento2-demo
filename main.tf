@@ -15,7 +15,7 @@ resource "google_compute_instance" "demo_origin_instance" {
     access_config {}
   }
   tags                    = ["http-server"]
-  metadata_startup_script = templatefile("vm-init.sh.tftpl", { magento_repo_user = var.magento_pub_key, magento_repo_pass = var.magento_priv_key })
+  metadata_startup_script = templatefile("vm-init.sh.tftpl", { magento_repo_user = var.magento_pub_key, magento_repo_pass = var.magento_priv_key, base_url = "${var.site_name}.global.ssl.fastly.net" })
   metadata = {
     ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
   }
@@ -137,11 +137,14 @@ resource "terraform_data" "magento_plugin_conf" {
       # wait until everything is installed
       "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 30; done",
       "cd /var/www/magento",
-      "bin/magento fastly:conf:set --enable --service-id ${fastly_service_vcl.demo_service.id} --token FIXME --test-connection --cache", # --upload-vcl --activate
+      "bin/magento fastly:conf:set --enable --service-id ${fastly_service_vcl.demo_service.id} --token FIXME",
+      "bin/magento fastly:conf:set --cache",
+      "bin/magento fastly:conf:set --test-connection",
+      "bin/magento fastly:conf:set --upload-vcl --activate",
     ]
   }
   # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
-  depends_on = [ sigsci_edge_deployment_service.ngwaf_edge_demo_link ]
+  depends_on = [sigsci_edge_deployment_service.ngwaf_edge_demo_link]
 }
 
 #######################################################################
