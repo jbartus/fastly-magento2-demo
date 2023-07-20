@@ -3,6 +3,7 @@ curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearm
 echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
 
 # apt packages
+apt update
 apt -y install curl mysql-server elasticsearch php php-zip php-curl php-xml php-gd php-intl php-mysql php-soap php-mbstring php-bcmath
 
 # elasticsearch
