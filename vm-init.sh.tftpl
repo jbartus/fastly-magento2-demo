@@ -25,7 +25,7 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 composer config --global http-basic.repo.magento.com ${magento_repo_user} ${magento_repo_pass}
 
 # install the magento code
-composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition /var/www/magento
+composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition="2.4.5" /var/www/magento
 
 # fix the permissions (lol)
 cd /var/www/magento
