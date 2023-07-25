@@ -49,6 +49,14 @@ resource "fastly_service_vcl" "demo_service" {
     shield  = "ewr-nj-us"
   }
 
+  product_enablement {
+    image_optimizer = true
+  }
+
+  force_destroy = true
+
+  # example vcl snippets
+
   snippet {
     name    = "init"
     type    = "init"
@@ -73,35 +81,43 @@ resource "fastly_service_vcl" "demo_service" {
     content = file("vcl/deliver.vcl")
   }
 
-  dictionary {
-    name = "Edge_Security"
-  }
+  # NGWAF stubs
 
-  dynamicsnippet {
-    name = "ngwaf_config_init"
-    type = "init"
-  }
+  # dictionary {
+  #   name = "Edge_Security"
+  # }
 
-  dynamicsnippet {
-    name = "ngwaf_config_pass"
-    type = "pass"
-  }
+  # dynamicsnippet {
+  #   name = "ngwaf_config_init"
+  #   type = "init"
+  # }
 
-  dynamicsnippet {
-    name = "ngwaf_config_miss"
-    type = "miss"
-  }
+  # dynamicsnippet {
+  #   name = "ngwaf_config_pass"
+  #   type = "pass"
+  # }
 
-  dynamicsnippet {
-    name = "ngwaf_config_deliver"
-    type = "deliver"
-  }
+  # dynamicsnippet {
+  #   name = "ngwaf_config_miss"
+  #   type = "miss"
+  # }
 
-  product_enablement {
-    image_optimizer = true
-  }
+  # dynamicsnippet {
+  #   name = "ngwaf_config_deliver"
+  #   type = "deliver"
+  # }
 
-  force_destroy = true
+  lifecycle {
+    ignore_changes = [ 
+      acl,
+      condition,
+      dictionary,
+      dynamicsnippet,
+      header,
+      request_setting,
+      snippet
+     ]
+  }
 }
 
 #######################################################################
