@@ -4,10 +4,10 @@
 
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
-  machine_type = "e2-medium"
+  machine_type = "c3-standard-4"
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"
+      image = "ubuntu-os-cloud/ubuntu-2210-amd64"
     }
   }
   network_interface {
@@ -16,6 +16,19 @@ resource "google_compute_instance" "demo_origin_instance" {
   }
   tags                    = ["http-server"]
   metadata_startup_script = file("vm-init.sh")
+  metadata = {
+    ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
+  }
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "root"
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.network_interface.0.access_config.0.nat_ip
+    }
+    source      = "magento.sh"
+    destination = "/usr/local/bin/magento.sh"
+  }
 }
 
 #######################################################################
@@ -36,6 +49,13 @@ resource "fastly_service_vcl" "demo_service" {
     shield  = "ewr-nj-us"
   }
 
+  product_enablement {
+    image_optimizer = true
+  }
+
+  force_destroy = true
+
+  # example vcl snippets
   snippet {
     name    = "init"
     type    = "init"
@@ -60,35 +80,18 @@ resource "fastly_service_vcl" "demo_service" {
     content = file("vcl/deliver.vcl")
   }
 
-  dictionary {
-    name = "Edge_Security"
+  # ignore most resources rather than spar with the ngwaf & magento plugin
+  lifecycle {
+    ignore_changes = [
+      acl,
+      condition,
+      dictionary,
+      dynamicsnippet,
+      header,
+      request_setting,
+      snippet
+    ]
   }
-
-  dynamicsnippet {
-    name = "ngwaf_config_init"
-    type = "init"
-  }
-
-  dynamicsnippet {
-    name = "ngwaf_config_pass"
-    type = "pass"
-  }
-
-  dynamicsnippet {
-    name = "ngwaf_config_miss"
-    type = "miss"
-  }
-
-  dynamicsnippet {
-    name = "ngwaf_config_deliver"
-    type = "deliver"
-  }
-
-  product_enablement {
-    image_optimizer = true
-  }
-
-  force_destroy = true
 }
 
 #######################################################################
@@ -110,6 +113,35 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   fastly_sid       = fastly_service_vcl.demo_service.id
   activate_version = true
   percent_enabled  = 100
+}
+
+#######################################################################
+## setup magento
+## 
+## this needs to be its own dummy-resource + provisioner because
+## the vcl service depends on the gcp vm ip as an origin, so terraform
+## creates the vm first and the service second.  that means the service
+## id doesn't exist yet when the vm init script runs.
+#######################################################################
+
+resource "terraform_data" "magento_setup" {
+  connection {
+    type        = "ssh"
+    user        = "root"
+    private_key = file("~/.ssh/id_rsa")
+    host        = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      # wait until everything is installed
+      "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 30; done",
+      "chmod +x /usr/local/bin/magento.sh",
+      "su -c \"repo_user=${var.magento_pub_key} repo_pass=${var.magento_priv_key} base_url='${var.site_name}.global.ssl.fastly.net' service_id=${fastly_service_vcl.demo_service.id} api_key=${var.api_key} /usr/local/bin/magento.sh\" - magento_user"
+    ]
+  }
+  # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
+  depends_on = [sigsci_edge_deployment_service.ngwaf_edge_demo_link]
 }
 
 #######################################################################

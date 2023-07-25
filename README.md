@@ -6,7 +6,7 @@
 - long term: a resource for managing bespoke partner demonstration environments
 
 ## pre-reqs
-- a fastly account (with `io_entitlement` and `rate_limiting` feature flags)
+- a fastly account (with `secret_store`, `io_entitlement` and `rate_limiting` feature flags)
 - the fastly cli, configured with an api token with engineer or higher permission
 - another api token with read-only access and user or higher permission (for the edgeapp)
 - a sigsci account (corp)
@@ -17,14 +17,22 @@
 - terraform
 - vegeta
 - jq
+- npm
 
 ## howto
 ### first time setup
 - clone this repo and cd into it
 - `terraform init`
 - `cp .env.example .env`
-- edit `.env` and populate the three `SIGSCI_` variables
-- put the read-only api token in `./edgeapp/.secret`
+- edit `.env`
+  - populate the two `TF_VAR_magento_repo` variables (see: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html)
+  - populate the three `SIGSCI_` variables
+  - validate the `gcloud` commands have the underlying values configured
+- put the read-only api token in `edgeapp/.secrets`
+- cd `edgeapp`
+  - `npm i`
+  - `fastly compute build`
+  - `cd ..`
 ### test loop
 - `source .env`
 - `source bin/secrets-apply.sh`

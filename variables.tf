@@ -5,3 +5,15 @@ variable "site_name" {
 variable "store_id" {
   type = string
 }
+
+variable "magento_pub_key" {
+  type = string
+}
+
+variable "magento_priv_key" {
+  type = string
+}
+
+variable "api_key" {
+  type = string
+}
