@@ -22,10 +22,6 @@
 ## howto
 ### first time setup
 - clone this repo and cd into it
-- TEMP: checkout this (magento) branch instead of main
-  - `git branch -a`
-  - `git checkout magento`
-  - `git pull`
 - `terraform init`
 - `cp .env.example .env`
 - edit `.env`
@@ -33,7 +29,6 @@
   - populate the three `SIGSCI_` variables
   - validate the `gcloud` commands have the underlying values configured
 - put the read-only api token in `edgeapp/.secrets`
-- TEMPORARY/AWFUL: replace the 'FIXME' on line 140 of main.tf with your fastly cli token (same from cli)
 - cd `edgeapp`
   - `npm i`
   - `fastly compute build`
