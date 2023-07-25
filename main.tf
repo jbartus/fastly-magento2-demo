@@ -82,7 +82,7 @@ resource "fastly_service_vcl" "demo_service" {
 
   # ignore most resources rather than spar with the ngwaf & magento plugin
   lifecycle {
-    ignore_changes = [ 
+    ignore_changes = [
       acl,
       condition,
       dictionary,
@@ -90,7 +90,7 @@ resource "fastly_service_vcl" "demo_service" {
       header,
       request_setting,
       snippet
-     ]
+    ]
   }
 }
 
