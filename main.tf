@@ -4,7 +4,7 @@
 
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
-  machine_type = "n2-standard-2"
+  machine_type = "c3-standard-4"
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2210-amd64"
@@ -15,9 +15,19 @@ resource "google_compute_instance" "demo_origin_instance" {
     access_config {}
   }
   tags                    = ["http-server"]
-  metadata_startup_script = templatefile("vm-init.sh.tftpl", { magento_repo_user = var.magento_pub_key, magento_repo_pass = var.magento_priv_key, base_url = "${var.site_name}.global.ssl.fastly.net" })
+  metadata_startup_script = file("vm-init.sh")
   metadata = {
     ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
+  }
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "root"
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.network_interface.0.access_config.0.nat_ip
+    }
+    source      = "magento.sh"
+    destination = "/usr/local/bin/magento.sh"
   }
 }
 
@@ -124,7 +134,7 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
 ## id doesn't exist yet when the vm init script runs.
 #######################################################################
 
-resource "terraform_data" "magento_plugin_conf" {
+resource "terraform_data" "magento_setup" {
   connection {
     type        = "ssh"
     user        = "root"
@@ -136,11 +146,8 @@ resource "terraform_data" "magento_plugin_conf" {
     inline = [
       # wait until everything is installed
       "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 30; done",
-      "cd /var/www/magento",
-      "bin/magento fastly:conf:set --enable --service-id ${fastly_service_vcl.demo_service.id} --token FIXME",
-      "bin/magento fastly:conf:set --cache",
-      "bin/magento fastly:conf:set --test-connection",
-      "bin/magento fastly:conf:set --upload-vcl --activate",
+      "chmod +x /usr/local/bin/magento.sh",
+      "su -c \"repo_user=${var.magento_pub_key} repo_pass=${var.magento_priv_key} base_url='${var.site_name}.global.ssl.fastly.net' service_id=${fastly_service_vcl.demo_service.id} api_key=${var.api_key} /usr/local/bin/magento.sh\" - magento_user"
     ]
   }
   # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
