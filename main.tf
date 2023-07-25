@@ -56,7 +56,6 @@ resource "fastly_service_vcl" "demo_service" {
   force_destroy = true
 
   # example vcl snippets
-
   snippet {
     name    = "init"
     type    = "init"
@@ -81,32 +80,7 @@ resource "fastly_service_vcl" "demo_service" {
     content = file("vcl/deliver.vcl")
   }
 
-  # NGWAF stubs
-
-  # dictionary {
-  #   name = "Edge_Security"
-  # }
-
-  # dynamicsnippet {
-  #   name = "ngwaf_config_init"
-  #   type = "init"
-  # }
-
-  # dynamicsnippet {
-  #   name = "ngwaf_config_pass"
-  #   type = "pass"
-  # }
-
-  # dynamicsnippet {
-  #   name = "ngwaf_config_miss"
-  #   type = "miss"
-  # }
-
-  # dynamicsnippet {
-  #   name = "ngwaf_config_deliver"
-  #   type = "deliver"
-  # }
-
+  # ignore most resources rather than spar with the ngwaf & magento plugin
   lifecycle {
     ignore_changes = [ 
       acl,
