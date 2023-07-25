@@ -13,3 +13,7 @@ variable "magento_pub_key" {
 variable "magento_priv_key" {
   type = string
 }
+
+variable "api_key" {
+  type = string
+}
