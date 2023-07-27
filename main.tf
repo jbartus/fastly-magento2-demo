@@ -7,7 +7,7 @@ resource "google_compute_instance" "demo_origin_instance" {
   machine_type = "c3-standard-4"
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2210-amd64"
+      image = "ubuntu-os-cloud/ubuntu-2304-amd64"
     }
   }
   network_interface {
