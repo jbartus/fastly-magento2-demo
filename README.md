@@ -6,7 +6,7 @@
 - long term: a resource for managing bespoke partner demonstration environments
 
 ## pre-reqs
-- a fastly account (with `secret_store`, `io_entitlement` and `rate_limiting` feature flags)
+- a fastly account (with `security_ui`, `secret_store`, `io_entitlement` and `rate_limiting` feature flags)
 - the fastly cli, configured with an api token with engineer or higher permission
 - another api token with read-only access and user or higher permission (for the edgeapp)
 - a sigsci account (corp)
