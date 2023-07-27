@@ -148,8 +148,15 @@ resource "terraform_data" "magento_setup" {
 ## example javascript compute@edge application 
 #######################################################################
 
+resource "terraform_data" "build_app" {
+  provisioner "local-exec" {
+    command = "cd edgeapp && npm install && fastly compute build"
+  }
+}
+
 data "fastly_package_hash" "edgeapp" {
   filename = "edgeapp/pkg/edgeapp.tar.gz"
+  depends_on = [ terraform_data.build_app ]
 }
 
 resource "fastly_service_compute" "demo" {

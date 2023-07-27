@@ -29,10 +29,7 @@
   - populate the three `SIGSCI_` variables
   - validate the `gcloud` commands have the underlying values configured
 - put the read-only api token in `edgeapp/.secrets`
-- cd `edgeapp`
-  - `npm i`
-  - `fastly compute build`
-  - `cd ..`
+
 ### test loop
 - `source .env`
 - `source bin/secrets-apply.sh`
