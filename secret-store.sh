@@ -1,0 +1,1 @@
+fastly secret-store list -j | jq '.data[] | select(.name == "secrets")'

@@ -32,11 +32,9 @@
 
 ### test loop
 - `source .env`
-- `source bin/secrets-apply.sh`
 - `terraform apply`
 - do your thing
 - `terraform destroy`
-- `./bin/secrets-destroy.sh`
 
 ## wishlist
 - integrate dcorbett's sqli demo
