@@ -18,12 +18,13 @@ resource "google_compute_instance" "demo_origin_instance" {
   # by default gcp projects have firewall rules
   # that permit 443 to instances with this tag
   tags                    = ["https-server"]
+  # do all the server setup steps done by root
   metadata_startup_script = file("vm-init.sh")
+  # pre-place the magento script now as the 'file' provisioner
+  # doesnt work in terraform_data resources (used later)
   metadata = {
     ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
   }
-  # pre-place the magento script now as the 'file' provisioner
-  # doesnt work in terraform_data resources (used later)
   provisioner "file" {
     connection {
       type        = "ssh"
