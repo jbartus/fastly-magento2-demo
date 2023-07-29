@@ -12,13 +12,18 @@ resource "google_compute_instance" "demo_origin_instance" {
   }
   network_interface {
     network = "default"
+    # default access_config for a public ip
     access_config {}
   }
+  # by default gcp projects have firewall rules
+  # that permit 443 to instances with this tag
   tags                    = ["https-server"]
   metadata_startup_script = file("vm-init.sh")
   metadata = {
     ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
   }
+  # pre-place the magento script now as the 'file' provisioner
+  # doesnt work in terraform_data resources (used later)
   provisioner "file" {
     connection {
       type        = "ssh"
@@ -82,7 +87,7 @@ resource "fastly_service_vcl" "demo_service" {
     content = file("vcl/deliver.vcl")
   }
 
-  # ignore most resources rather than spar with the ngwaf & magento plugin
+  # ignore resources the ngwaf or magento plugin change
   lifecycle {
     ignore_changes = [
       acl,
@@ -106,10 +111,12 @@ resource "sigsci_site" "demo_site" {
   agent_level  = "block"
 }
 
+# deploy a managed ngwaf@edge agent on the fastly side
 resource "sigsci_edge_deployment" "ngwaf_edge_demo" {
   site_short_name = sigsci_site.demo_site.short_name
 }
 
+# link the varnish service to the ngwaf@edge agent backend
 resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   site_short_name  = sigsci_edge_deployment.ngwaf_edge_demo.site_short_name
   fastly_sid       = fastly_service_vcl.demo_service.id
@@ -120,10 +127,12 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
 #######################################################################
 ## setup magento
 ## 
-## this needs to be its own dummy-resource + provisioner because
-## the vcl service depends on the gcp vm ip as an origin, so terraform
-## creates the vm first and the service second.  that means the service
-## id doesn't exist yet when the vm init script runs.
+## this can't just run inside the google_compute_instance resource
+## because it would create a circular dependency:
+## the magento config script needs the fastly service id
+## the fastly service needs the gcp vms nat ip (for origin)
+## so terraform creates the fastly service *after* the gcp vm
+## so the vm init script cant reference the service id
 #######################################################################
 
 resource "terraform_data" "magento_setup" {
@@ -150,6 +159,7 @@ resource "terraform_data" "magento_setup" {
 ## example javascript compute@edge application 
 #######################################################################
 
+# workaround for not having a fastly_secretstore resource yet
 resource "terraform_data" "secret_store" {
   provisioner "local-exec" {
     when    = create
@@ -172,12 +182,14 @@ resource "terraform_data" "secret_store_entry" {
   }
 }
 
+# do an initial build to save a manual step for fresh checkouts
 resource "terraform_data" "build_app" {
   provisioner "local-exec" {
     command = "cd edgeapp && npm install && fastly compute build --quiet"
   }
 }
 
+# consistently sorts files before hashing to avoid extra deploys
 data "fastly_package_hash" "edgeapp" {
   filename   = "edgeapp/pkg/edgeapp.tar.gz"
   depends_on = [terraform_data.build_app]
@@ -195,6 +207,7 @@ resource "fastly_service_compute" "demo" {
     source_code_hash = data.fastly_package_hash.edgeapp.hash
   }
 
+  # the app calls the fastly api for the list of pops
   backend {
     name              = "fastlyapi"
     address           = "api.fastly.com"
@@ -205,6 +218,7 @@ resource "fastly_service_compute" "demo" {
     use_ssl           = true
   }
 
+  # link this app to the secret store containing the read-only fastly api key
   resource_link {
     name        = "secrets"
     resource_id = data.external.secret_store.result.id
