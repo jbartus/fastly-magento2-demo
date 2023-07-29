@@ -15,27 +15,28 @@ CREATE DATABASE magento;
 CREATE USER 'magento'@'localhost' IDENTIFIED BY 'magento-test-pass';
 GRANT ALL PRIVILEGES ON magento.* TO 'magento'@'localhost';
 FLUSH PRIVILEGES;
+SET GLOBAL innodb_buffer_pool_size=4294967296;
 SQL
 
-# enable mod_rewrite
+# configure apache
 a2enmod rewrite
+a2enmod ssl
+a2ensite default-ssl
+a2dissite 000-default
 
 # move the default virtualhost documentroot to the magento install
 mkdir /var/www/html/magento2
-sed -i 's/html/html\/magento2/' /etc/apache2/sites-enabled/000-default.conf
+sed -i 's;DocumentRoot /var/www/html;DocumentRoot /var/www/html/magento2;' /etc/apache2/sites-available/default-ssl.conf
 
-# enable .htaccess (note one big multiline command)
-cat <<EOF >> /etc/apache2/sites-enabled/000-default.conf
+# enable .htaccess
+cat <<EOF >> /etc/apache2/sites-available/default-ssl.conf
 <Directory "/var/www/html">
         AllowOverride All
 </Directory>
 EOF
 
-# fix the https redirect loop
-echo 'SetEnvIf HTTPS "on" HTTPS="on"' >> /etc/apache2/sites-enabled/000-default.conf
-
 # restart apache
-systemctl restart apache2
+service apache2 restart
 
 # install composer
 export COMPOSER_HOME=/root/.config/composer

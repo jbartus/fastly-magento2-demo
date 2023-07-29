@@ -14,7 +14,7 @@ resource "google_compute_instance" "demo_origin_instance" {
     network = "default"
     access_config {}
   }
-  tags                    = ["http-server"]
+  tags                    = ["https-server"]
   metadata_startup_script = file("vm-init.sh")
   metadata = {
     ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
@@ -45,7 +45,9 @@ resource "fastly_service_vcl" "demo_service" {
   backend {
     address = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
     name    = "${var.site_name}-origin"
-    port    = 80
+    port    = 443
+    use_ssl = "true"
+    ssl_check_cert = "false"
     shield  = "ewr-nj-us"
   }
 
