@@ -151,11 +151,11 @@ resource "terraform_data" "magento_setup" {
 resource "terraform_data" "secret_store" {
   provisioner "local-exec" {
     when = create
-    command = "fastly secret-store create --name secrets"
+    command = "fastly secret-store create --name secrets --quiet"
   }
   provisioner "local-exec" {
     when = destroy
-    command = "fastly secret-store delete --store-id=$(fastly secret-store list -j | jq '.data[] | select(.name == \"secrets\") | .id' -r)"
+    command = "fastly secret-store delete --store-id=$(fastly secret-store list -j | jq '.data[] | select(.name == \"secrets\") | .id' -r) --quiet"
   }
 }
 
@@ -166,13 +166,13 @@ data "external" "secret_store" {
 
 resource "terraform_data" "secret_store_entry" {
   provisioner "local-exec" {
-    command = "fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --file=edgeapp/.secrets"
+    command = "fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --file=edgeapp/.secrets --quiet"
   }
 }
 
 resource "terraform_data" "build_app" {
   provisioner "local-exec" {
-    command = "cd edgeapp && npm install && fastly compute build"
+    command = "cd edgeapp && npm install && fastly compute build --quiet"
   }
 }
 

@@ -1,1 +1,1 @@
-fastly secret-store list -j | jq '.data[] | select(.name == "secrets")'
+fastly secret-store list --json --quiet | jq '.data[] | select(.name == "secrets")'
