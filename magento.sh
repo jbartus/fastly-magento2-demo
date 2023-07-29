@@ -33,8 +33,12 @@ bin/magento setup:install \
 # disable 2FA since this is just a temporary demo site
 bin/magento module:disable Magento_TwoFactorAuth
 
-# configure sampledata for a demo site
+# configure magento repo credentials
+# used by composer during sampledata deploy and admin web ui
 composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
+chmod g+r auth.json
+
+# configure sampledata for a demo site
 bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
