@@ -43,12 +43,12 @@ resource "fastly_service_vcl" "demo_service" {
   }
 
   backend {
-    address = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
-    name    = "${var.site_name}-origin"
-    port    = 443
-    use_ssl = "true"
+    address        = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
+    name           = "${var.site_name}-origin"
+    port           = 443
+    use_ssl        = "true"
     ssl_check_cert = "false"
-    shield  = "ewr-nj-us"
+    shield         = "ewr-nj-us"
   }
 
   product_enablement {
@@ -152,18 +152,18 @@ resource "terraform_data" "magento_setup" {
 
 resource "terraform_data" "secret_store" {
   provisioner "local-exec" {
-    when = create
+    when    = create
     command = "fastly secret-store create --name secrets --quiet"
   }
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.data[] | select(.name == \"secrets\") | .id' -r) --quiet"
   }
 }
 
 data "external" "secret_store" {
-  program = [ "bash", "secret-store.sh" ]
-  depends_on = [ terraform_data.secret_store ]
+  program    = ["bash", "secret-store.sh"]
+  depends_on = [terraform_data.secret_store]
 }
 
 resource "terraform_data" "secret_store_entry" {
@@ -179,8 +179,8 @@ resource "terraform_data" "build_app" {
 }
 
 data "fastly_package_hash" "edgeapp" {
-  filename = "edgeapp/pkg/edgeapp.tar.gz"
-  depends_on = [ terraform_data.build_app ]
+  filename   = "edgeapp/pkg/edgeapp.tar.gz"
+  depends_on = [terraform_data.build_app]
 }
 
 resource "fastly_service_compute" "demo" {
