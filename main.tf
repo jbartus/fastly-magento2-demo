@@ -17,7 +17,7 @@ resource "google_compute_instance" "demo_origin_instance" {
   }
   # by default gcp projects have firewall rules
   # that permit 443 to instances with this tag
-  tags                    = ["https-server"]
+  tags = ["https-server"]
   # do all the server setup steps done by root
   metadata_startup_script = file("vm-init.sh")
   # pre-place the magento script now as the 'file' provisioner
@@ -35,6 +35,44 @@ resource "google_compute_instance" "demo_origin_instance" {
     source      = "magento.sh"
     destination = "/usr/local/bin/magento.sh"
   }
+}
+
+#######################################################################
+## bigquery logging setup
+#######################################################################
+
+resource "google_bigquery_dataset" "logs_ds" {
+  # bq doesnt allow hyphens in dataset names
+  dataset_id = replace("${var.site_name}_ds", "-", "_")
+}
+
+resource "google_bigquery_table" "logs_table" {
+  dataset_id          = google_bigquery_dataset.logs_ds.dataset_id
+  table_id            = "fastly_service_logs"
+  schema              = file("bqlog_schema.json")
+  deletion_protection = false
+}
+
+resource "google_service_account" "bq_writer" {
+  account_id = "${var.site_name}-bq-writer"
+}
+
+resource "google_project_iam_member" "bq_writer" {
+  project = google_service_account.bq_writer.project
+  role    = "roles/bigquery.dataEditor"
+  member  = "serviceAccount:${google_service_account.bq_writer.email}"
+}
+
+data "google_iam_policy" "fastly_logging_impersonation" {
+  binding {
+    role    = "roles/iam.serviceAccountTokenCreator"
+    members = ["serviceAccount:fastly-logging@datalog-bulleit-9e86.iam.gserviceaccount.com"]
+  }
+}
+
+resource "google_service_account_iam_policy" "fastly_logging_impersonation" {
+  service_account_id = google_service_account.bq_writer.name
+  policy_data        = data.google_iam_policy.fastly_logging_impersonation.policy_data
 }
 
 #######################################################################
@@ -86,6 +124,15 @@ resource "fastly_service_vcl" "demo_service" {
     name    = "deliver"
     type    = "deliver"
     content = file("vcl/deliver.vcl")
+  }
+
+  logging_bigquery {
+    name         = "bigquery"
+    project_id   = google_service_account.bq_writer.project
+    dataset      = google_bigquery_dataset.logs_ds.dataset_id
+    table        = google_bigquery_table.logs_table.table_id
+    account_name = google_service_account.bq_writer.account_id
+    format       = file("log_format_string.json")
   }
 
   # ignore resources the ngwaf or magento plugin change
