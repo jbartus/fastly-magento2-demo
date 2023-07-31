@@ -5,6 +5,12 @@
 - medium term: a foundation on which to build live product demonstrations
 - long term: a resource for managing bespoke partner demonstration environments
 
+## what does it do
+- deploys a javascript compute@edge application that uses geoip data, a secret-store, and makes an api call
+- creates a virtual machine on google cloud, installs magento and the fastly magento plugin
+- creates a fastly service with edge rate-limiting, image-optimizaiton and bigquery logging to sit in front of it
+- attaches an ngwaf@edge deployment to the service
+
 ## pre-reqs
 - a fastly account (with `security_ui`, `secret_store`, `io_entitlement` and `rate_limiting` feature flags)
 - the fastly cli, configured with an api token with engineer or higher permission
