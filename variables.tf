@@ -13,3 +13,11 @@ variable "magento_priv_key" {
 variable "api_key" {
   type = string
 }
+
+variable "ssh_pub_key" {
+  type = string
+}
+
+variable "ssh_priv_key" {
+  type = string
+}

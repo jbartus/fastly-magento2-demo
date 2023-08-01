@@ -23,13 +23,13 @@ resource "google_compute_instance" "demo_origin_instance" {
   # pre-place the magento script now as the 'file' provisioner
   # doesnt work in terraform_data resources (used later)
   metadata = {
-    ssh-keys = "root:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "root:${file("${var.ssh_pub_key}")}"
   }
   provisioner "file" {
     connection {
       type        = "ssh"
       user        = "root"
-      private_key = file("~/.ssh/id_rsa")
+      private_key = file("${var.ssh_priv_key}")
       host        = self.network_interface.0.access_config.0.nat_ip
     }
     source      = "magento.sh"
