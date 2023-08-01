@@ -12,7 +12,11 @@
 - attaches an ngwaf@edge deployment to the service
 
 ## pre-reqs
-- a fastly account (with `security_ui`, `secret_store`, `io_entitlement` and `rate_limiting` feature flags)
+- a fastly account with the following feature flags enabled
+  - `security_ui`
+  - `secret_store`
+  - `io_entitlement`
+  - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
 - the fastly cli, configured with an api token with engineer or higher permission
 - another api token with read-only access and user or higher permission (for the edgeapp)
 - a sigsci account (corp)
@@ -31,7 +35,7 @@
 - `terraform init`
 - `cp .env.example .env`
 - edit `.env`
-  - populate the two `TF_VAR_magento_repo` variables (see: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html)
+  - populate the two `TF_VAR_magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))
   - populate the three `SIGSCI_` variables
   - validate the `gcloud` commands have the underlying values configured
 - put the read-only api token in `edgeapp/.secrets`
