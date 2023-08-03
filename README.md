@@ -10,6 +10,7 @@
 - creates a virtual machine on google cloud, installs magento and the fastly magento plugin
 - creates a fastly service with edge rate-limiting, image-optimizaiton and bigquery logging to sit in front of it
 - attaches an ngwaf@edge deployment to the service
+- spools up some attack tooling to generate traffic and graph data
 
 ## pre-reqs
 - a fastly account with the following feature flags enabled
