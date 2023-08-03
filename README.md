@@ -21,7 +21,7 @@
 - another api token with read-only access and user or higher permission (for the edgeapp) [creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens)
 - a sigsci account (corp)
 - an api key from that corp
-- a GCP account
+- a GCP account with access to the SE development project
 - the gcloud cli tool installed and authenticated
 `gcloud auth application-default login`
 - terraform

@@ -21,3 +21,7 @@ variable "ssh_pub_key" {
 variable "ssh_priv_key" {
   type = string
 }
+
+variable "rhack_digest" {
+  type = string
+}
