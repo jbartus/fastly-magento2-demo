@@ -5,7 +5,7 @@
 ## because it would create a circular dependency:
 ## the magento config script needs the fastly service id
 ## the fastly service needs the gcp vms nat ip (for origin)
-## so terraform creates the fastly service *after* the gcp vm
+## so terraform creates the vm first and the service second
 ## so the vm init script cant reference the service id
 #######################################################################
 
