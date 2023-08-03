@@ -17,8 +17,8 @@
   - `secret_store`
   - `io_entitlement`
   - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
-- the fastly cli, configured with an api token with engineer or higher permission
-- another api token with read-only access and user or higher permission (for the edgeapp)
+- the fastly cli, configured with an api token with engineer or higher permission [howto docs link](https://developer.fastly.com/learning/tools/cli/#installing)
+- another api token with read-only access and user or higher permission (for the edgeapp) [creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens)
 - a sigsci account (corp)
 - an api key from that corp
 - a GCP account
