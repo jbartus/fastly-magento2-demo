@@ -12,12 +12,33 @@
 - attaches an ngwaf@edge deployment to the service
 - spools up some attack tooling to generate traffic and graph data
 
+## diagrams
 ```mermaid
 flowchart LR
-  A[yourname-demo.edgecompute.app] --> B(edgeapp)
-  B --> C(secretstore)
-  C --> D(fastlyapi)
+  site[whoami-demo.edgecompute.app] --> xqd[compute service]
+  xqd --> secretstore
+  xqd --> fastlyapi
 ```
+
+```mermaid
+flowchart LR
+  site[whoami-demo.freetls.fastly.net] --> varnish[varnish service]
+  varnish --> vcl[vcl snippets]
+  vcl --> ratelimit
+  vcl --> synthetic
+  vcl --> imageopto
+  varnish --> ngwaf
+  ngwaf --> origin[origin vm]
+  origin --> mp[magento plugin]
+  varnish --> bq[bigquery logs]
+```
+
+```mermaid
+flowchart LR
+  vm[randomhack vm] --> container[randomhack container]
+  container --> site[whoami-demo.freetls.fastly.net]
+``` 
+
 
 ## pre-reqs
 - a fastly account with the following feature flags enabled
