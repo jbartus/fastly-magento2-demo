@@ -12,6 +12,13 @@
 - attaches an ngwaf@edge deployment to the service
 - spools up some attack tooling to generate traffic and graph data
 
+```mermaid
+flowchart LR
+  A[yourname-demo.edgecompute.app] --> B(edgeapp)
+  B --> C(secretstore)
+  C --> D(fastlyapi)
+```
+
 ## pre-reqs
 - a fastly account with the following feature flags enabled
   - `security_ui`
