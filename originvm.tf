@@ -4,7 +4,8 @@
 
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
-  machine_type = "c3-standard-4"
+  machine_type = "n2-standard-4"
+  zone         = "us-west1-a"
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2304-amd64"

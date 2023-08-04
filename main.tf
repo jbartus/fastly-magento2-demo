@@ -15,7 +15,7 @@ resource "fastly_service_vcl" "demo_service" {
     port           = 443
     use_ssl        = "true"
     ssl_check_cert = "false"
-    shield         = "ewr-nj-us"
+    shield         = "pdx-or-us"
   }
 
   product_enablement {
