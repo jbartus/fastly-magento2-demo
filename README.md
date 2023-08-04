@@ -23,13 +23,8 @@ flowchart LR
 ```mermaid
 flowchart LR
   site[whoami-demo.freetls.fastly.net] --> varnish[varnish service]
-  varnish --> vcl[vcl snippets]
-  vcl --> ratelimit
-  vcl --> synthetic
-  vcl --> imageopto
   varnish --> ngwaf
   ngwaf --> origin[origin vm]
-  origin --> mp[magento plugin]
   varnish --> bq[bigquery logs]
 ```
 
