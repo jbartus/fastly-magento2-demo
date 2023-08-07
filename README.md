@@ -30,8 +30,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  vm[randomhack vm] --> container[randomhack container]
+  rhvm[randomhack vm] --> container[randomhack container]
   container --> site[whoami-demo.freetls.fastly.net]
+  ptvm[puppeteer vm] --> scripts[puppeteer scripts]
+  scripts --> site
 ``` 
 
 
