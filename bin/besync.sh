@@ -6,4 +6,4 @@ curl -X PUT https://dashboard.signalsciences.net/api/v0/corps/${SIGSCI_CORP}/sit
 -H "content-type:application/json" \
 -H "x-api-user: ${SIGSCI_EMAIL}" \
 -H "x-api-token: ${SIGSCI_TOKEN}" \
--H "fastly-key: ${FASTLY_KEY}"
+-H "fastly-key: ${FASTLY_API_KEY}"

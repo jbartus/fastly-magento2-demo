@@ -5,31 +5,71 @@
 - medium term: a foundation on which to build live product demonstrations
 - long term: a resource for managing bespoke partner demonstration environments
 
+## what does it do
+- deploys a javascript compute@edge application that uses geoip data, a secret-store, and makes an api call
+- creates a virtual machine on google cloud, installs magento and the fastly magento plugin
+- creates a fastly service with edge rate-limiting, image-optimizaiton and bigquery logging to sit in front of it
+- attaches an ngwaf@edge deployment to the service
+- spools up some attack tooling to generate traffic and graph data
+
+## diagrams
+```mermaid
+flowchart LR
+  site[whoami-demo.edgecompute.app] --> xqd[compute service]
+  xqd --> secretstore
+  xqd --> fastlyapi
+```
+
+```mermaid
+flowchart LR
+  site[whoami-demo.global.ssl.fastly.net] --> varnish[varnish service]
+  varnish --> ngwaf
+  ngwaf --> origin[origin vm]
+  varnish --> bq[bigquery logs]
+```
+
+```mermaid
+flowchart LR
+  rhvm[randomhack vm] --> container[randomhack container]
+  container --> site[whoami-demo.global.ssl.fastly.net]
+  ptvm[puppeteer vm] --> scripts[puppeteer scripts]
+  scripts --> site
+``` 
+
+
 ## pre-reqs
-- a fastly account (with `io_entitlement` and `rate_limiting` feature flags)
-- an api key from that account
-- the fastly cli installed and configured with the key
-`fastly whoami`
+- a fastly account with the following feature flags enabled
+  - `security_ui`
+  - `secret_store`
+  - `io_entitlement`
+  - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
+- the fastly cli, configured with an api token with engineer or higher permission [howto docs link](https://developer.fastly.com/learning/tools/cli/#installing)
+- another api token with read-only access and user or higher permission (for the edgeapp) [creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens)
 - a sigsci account (corp)
 - an api key from that corp
-- a GCP account
+- a GCP account with access to the SE development project
 - the gcloud cli tool installed and authenticated
 `gcloud auth application-default login`
 - terraform
 - vegeta
 - jq
+- npm
 
 ## howto
+### first time setup
 - clone this repo and cd into it
-- `cp .env.example .env`
-- edit `.env` and populate the three `SIGSCI_` variables
-- `source .env`
 - `terraform init`
+- `cp .env.example .env`
+- edit `.env`
+  - populate the two `TF_VAR_magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))
+  - populate the three `SIGSCI_` variables
+  - validate the `gcloud` commands have the underlying values configured
+- put the read-only api token in `edgeapp/.secrets`
+
+### test loop
+- `source .env`
 - `terraform apply`
-- generate a read-only fastly api token and put it in `./edgeapp/.secret`
-- `./bin/secrets-apply.sh`
 - do your thing
-- `./bin/secrets-destroy.sh`
 - `terraform destroy`
 
 ## wishlist
