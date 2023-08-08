@@ -22,7 +22,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  site[whoami-demo.freetls.fastly.net] --> varnish[varnish service]
+  site[whoami-demo.global.ssl.fastly.net] --> varnish[varnish service]
   varnish --> ngwaf
   ngwaf --> origin[origin vm]
   varnish --> bq[bigquery logs]
@@ -31,7 +31,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   rhvm[randomhack vm] --> container[randomhack container]
-  container --> site[whoami-demo.freetls.fastly.net]
+  container --> site[whoami-demo.global.ssl.fastly.net]
   ptvm[puppeteer vm] --> scripts[puppeteer scripts]
   scripts --> site
 ``` 
