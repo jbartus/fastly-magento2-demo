@@ -55,6 +55,18 @@ flowchart LR
 - jq
 - npm
 
+## codespace
+- press the `.` key while on this page
+- click the three-lines menu button in the top left corner -> terminal -> new terminal
+- click the top button to launch a codespace (this takes several minutes)
+- configure the fastly cli  
+    `fastly profile create`
+- configure the gcloud cli  
+    `gcloud auth login`  
+    `gcloud config set project <projectname>`  
+    `gcloud config set compute/region us-east1`  
+    `gcloud config set compute/zone us-east1-b`  
+
 ## howto
 ### first time setup
 - clone this repo and cd into it
