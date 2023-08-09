@@ -51,7 +51,9 @@ flowchart LR
 #### if using a github codespace
 - press the `.` key while on this page (in github)
 - click the three-lines menu button in the top left corner -> terminal -> new terminal
-- click the top button to launch a codespace (this takes several minutes)
+- click the top button to launch a codespace
+- chose a 2-core VM
+- watch and wait for it to setup (takes ~5m)
 
 #### if using vscode locally with devcontainer
 - install the devcontainer extension in vscode
@@ -95,8 +97,6 @@ flowchart LR
 - edit `.env`
   - populate the two `TF_VAR_magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
   - populate the three `SIGSCI_` variables ([see here for how to create an api key](https://docs.fastly.com/signalsciences/developer/using-our-api/#managing-api-access-tokens))
-  - validate the `fastly` command returns a token
-  - validate the `gcloud` commands return good results
 - `terraform init`
 
 ### test loop
