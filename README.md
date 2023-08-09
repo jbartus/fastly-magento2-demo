@@ -71,7 +71,9 @@ flowchart LR
   `[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"`  
   `nvm install node`
 - gcloud cli ([docs](https://cloud.google.com/sdk/docs/install-sdk#mac))  
-  `curl -o- https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-442.0.0-darwin-arm.tar.gz | tar xf && ./google-cloud-sdk/install.sh`
+  `curl -o https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-442.0.0-darwin-arm.tar.gz`  
+  `tar xf google-cloud-cli-*`  
+  `./google-cloud-sdk/install.sh`
 - clone this repo and cd into it
 
 #### configure authentication(s)
