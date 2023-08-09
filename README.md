@@ -47,6 +47,17 @@ flowchart LR
 - a GCP account with access to the SE development project
 
 ## howto
+
+```mermaid
+flowchart TD
+  first[first time setup] --> codespace[github codespaces]
+  first --> localdc[vscode locally with devcontainer]
+  first --> mac[mac arm with regular/local tooling]
+  codespace --> auth[configure authentication]
+  localdc --> auth
+  mac --> auth
+```
+
 ### first time setup
 #### if using a github codespace
 - press the `.` key while on this page (in github)
