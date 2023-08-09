@@ -56,6 +56,7 @@ flowchart TD
   codespace --> auth[configure authentication]
   localdc --> auth
   mac --> auth
+  auth -->test[test loop]
 ```
 
 ### first time setup
