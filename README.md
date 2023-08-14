@@ -102,8 +102,6 @@ flowchart TD
     `gcloud config set project <projectname>`  
     `gcloud config set compute/region us-east1`  
     `gcloud config set compute/zone us-east1-b`  
-- if you don't already have them, generate a defatult ssh keypair (codespace/devcontainer setups will not)  
-    `ssh-keygen`
 - copy the example environment variables file to start your own local one (which will be ignored by git)  
   `cp .env.example .env`
 - edit `.env`
