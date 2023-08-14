@@ -81,7 +81,7 @@ flowchart TD
   `brew install fastly terraform vegeta jq`
 - install npm ([docs](https://github.com/nvm-sh/nvm#installing-and-updating))  
   `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash`  
-  `export NVM_DIR="$HOME/.nvm"`
+  `export NVM_DIR="$HOME/.nvm"`  
   `[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"`  
   `nvm install node`
 - gcloud cli ([docs](https://cloud.google.com/sdk/docs/install-sdk#mac))  
