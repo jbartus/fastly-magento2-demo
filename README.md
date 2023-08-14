@@ -102,7 +102,7 @@ flowchart TD
     `gcloud config set project <projectname>`  
     `gcloud config set compute/region us-east1`  
     `gcloud config set compute/zone us-east1-b`  
-- copy the example environment variables file to start your own local one (which will be ignored by git)  
+- copy the example environment variables file to start your own (which will be ignored by git)  
   `cp .env.example .env`
 - edit `.env`
   - populate the two `TF_VAR_magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
