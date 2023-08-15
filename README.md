@@ -98,7 +98,7 @@ flowchart TD
 - put the read-only api token in `edgeapp/.secrets`
 - configure the gcloud cli  
     `gcloud auth login` - for you to be able to use the gcloud cli  
-    `gcloud auth application-default login` - for the google terraform provider to be able to sue the gcp sdk  
+    `gcloud auth application-default login` - for the google terraform provider to be able to use the gcp sdk  
     `gcloud config set project <projectname>`  
     `gcloud config set compute/region us-east1`  
     `gcloud config set compute/zone us-east1-b`  
