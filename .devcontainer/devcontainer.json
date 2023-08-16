@@ -5,5 +5,5 @@
     "ghcr.io/mpriscella/features/fastly:1": {},
     "ghcr.io/dhoeric/features/google-cloud-cli:1": {}
   },
-  "postCreateCommand": "ssh-keygen -q -f ~/.ssh/id_rsa -N ''"
+  "postCreateCommand": "ssh-keygen -q -f ~/.ssh/id_rsa -N '' && cp terraform.tfvars.example terraform.tfvars && terraform init"
 }
