@@ -21,7 +21,7 @@ data "external" "secret_store" {
 
 resource "terraform_data" "secret_store_entry" {
   provisioner "local-exec" {
-    command = "fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --file=edgeapp/.secrets --quiet"
+    command = "echo ${var.fastly_api_key} | fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --quiet --stdin"
   }
 }
 
