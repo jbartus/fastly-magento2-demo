@@ -61,10 +61,8 @@ flowchart TD
 
 ### first time setup
 #### if using a github codespace
-- press the `.` key while on this page (in github)
-- click the three-lines menu button in the top left corner -> terminal -> new terminal
-- click the top button to launch a codespace
-- chose a 2-core VM
+- click the green "Code" button at the top of the github repo
+- click the green "Create codespace..." button
 - watch and wait for it to setup (takes ~5m)
 
 #### if using vscode locally with devcontainer
