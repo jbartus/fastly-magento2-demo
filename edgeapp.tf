@@ -10,7 +10,7 @@ resource "terraform_data" "secret_store" {
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.data[] | select(.name == \"secrets\") | .id' -r) --quiet"
+    command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.[] | select(.name == \"secrets\") | .id' -r) --quiet"
   }
 }
 
