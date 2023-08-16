@@ -61,10 +61,8 @@ flowchart TD
 
 ### first time setup
 #### if using a github codespace
-- press the `.` key while on this page (in github)
-- click the three-lines menu button in the top left corner -> terminal -> new terminal
-- click the top button to launch a codespace
-- chose a 2-core VM
+- click the green "Code" button at the top of the github repo
+- click the green "Create codespace..." button
 - watch and wait for it to setup (takes ~5m)
 
 #### if using vscode locally with devcontainer
@@ -89,30 +87,24 @@ flowchart TD
   `tar xf google-cloud-cli-*`  
   `./google-cloud-sdk/install.sh`
 - clone this repo and cd into it
+- copy the variables file to start your own (which will be ignored by git)  
+  `cp terraform.tfvars.example terraform.tfvars`
+- `terraform init`
 
 #### configure authentication(s)
 - create a fastly api token for your user ([creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens))
 - configure the fastly cli with it   
     `fastly profile create`
-- create a second fastly api token with read-only access (for the edgeapp)
-- put the read-only api token in `edgeapp/.secrets`
-- configure the gcloud cli  
-    `gcloud auth login` - for you to be able to use the gcloud cli  
-    `gcloud auth application-default login` - for the google terraform provider to be able to use the gcp sdk  
-    `gcloud config set project <projectname>`  
-    `gcloud config set compute/region us-east1`  
-    `gcloud config set compute/zone us-east1-b`  
-- copy the example environment variables file to start your own (which will be ignored by git)  
-  `cp .env.example .env`
-- edit `.env`
-  - populate the two `TF_VAR_magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
-  - populate the three `SIGSCI_` variables ([see here for how to create an api key](https://docs.fastly.com/signalsciences/developer/using-our-api/#managing-api-access-tokens))
-- `terraform init`
+- configure the google terraform provider's access  
+    `gcloud auth application-default login`
+- edit `terraform.tfvars`
+  - use the same fastly api key from the cli (`fastly profile token`)
+  - populate the two `magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
+  - populate the three `sigsci_` variables ([see here for how to create an api key](https://docs.fastly.com/signalsciences/developer/using-our-api/#managing-api-access-tokens))
 
 ### test loop
-- `source .env`
 - `terraform apply`
-- do your thing
+- click the links
 - `terraform destroy`
 
 ## wishlist

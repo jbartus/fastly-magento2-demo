@@ -10,7 +10,7 @@ resource "terraform_data" "secret_store" {
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.data[] | select(.name == \"secrets\") | .id' -r) --quiet"
+    command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.[] | select(.name == \"secrets\") | .id' -r) --quiet"
   }
 }
 
@@ -21,7 +21,7 @@ data "external" "secret_store" {
 
 resource "terraform_data" "secret_store_entry" {
   provisioner "local-exec" {
-    command = "fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --file=edgeapp/.secrets --quiet"
+    command = "echo -n ${var.fastly_api_key} | fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --quiet --stdin"
   }
 }
 
