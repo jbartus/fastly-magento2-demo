@@ -97,8 +97,8 @@ flowchart TD
 - create a fastly api token for your user ([creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens))
 - configure the fastly cli with it   
     `fastly profile create`
-- create a second fastly api token with read-only access (for the edgeapp)
-- put the read-only api token in `edgeapp/.secrets`
+- put the api token in `edgeapp/.secrets`
+    `echo -n "$(fastly profile token -q)" > edgeapp/.secrets`
 - configure the google terraform provider's access  
     `gcloud auth application-default login`
 - edit `terraform.tfvars`
