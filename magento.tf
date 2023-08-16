@@ -22,7 +22,7 @@ resource "terraform_data" "magento_setup" {
       # wait until everything is installed
       "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 30; done",
       "chmod +x /usr/local/bin/magento.sh",
-      "su -c \"repo_user=${var.magento_pub_key} repo_pass=${var.magento_priv_key} base_url='${var.site_name}.global.ssl.fastly.net' service_id=${fastly_service_vcl.demo_service.id} api_key=${var.api_key} /usr/local/bin/magento.sh\" - magento_user"
+      "su -c \"repo_user=${var.magento_pub_key} repo_pass=${var.magento_priv_key} base_url='${var.site_name}.global.ssl.fastly.net' service_id=${fastly_service_vcl.demo_service.id} api_key=${var.fastly_api_key} /usr/local/bin/magento.sh\" - magento_user"
     ]
   }
   # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
