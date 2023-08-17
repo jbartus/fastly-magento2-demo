@@ -24,11 +24,6 @@ variable "ssh_priv_key" {
   default = "~/.ssh/id_rsa"
 }
 
-variable "rhack_digest" {
-  type    = string
-  default = "sha256:101de50054c70cb0ab093f3030f384ef489f14f856d91cd7fa9cd10d4e45bc28"
-}
-
 variable "sigsci_corp" {
   type = string
 }

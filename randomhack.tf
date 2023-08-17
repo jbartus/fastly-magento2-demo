@@ -8,10 +8,9 @@ resource "google_project_iam_member" "random_hacker" {
   member  = "serviceAccount:${google_service_account.random_hacker.email}"
 }
 
-resource "google_compute_instance" "random_hacker_instance" {
+resource "google_compute_instance" "random_hacker" {
   name                      = "${var.site_name}-random-hacker"
   machine_type              = "c3-standard-4"
-  tags                      = ["https-server"]
   allow_stopping_for_update = true
   boot_disk {
     initialize_params {
@@ -24,11 +23,11 @@ resource "google_compute_instance" "random_hacker_instance" {
   }
   service_account {
     email  = google_service_account.random_hacker.email
-    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    scopes = ["https://www.googleapis.com/auth/devstorage.read_only"]
   }
   metadata_startup_script = <<SCRIPT
 curl -fsSL https://get.docker.com | sh
 gcloud auth configure-docker --quiet
-docker run --network host -d gcr.io/${google_project_iam_member.random_hacker.project}/random-hack@${var.rhack_digest} /usr/src/app/main -target https://${var.site_name}.global.ssl.fastly.net -debugging 1
+docker run --network host -d gcr.io/${var.google_project}/random-hack:latest /usr/src/app/main -target https://${var.site_name}.global.ssl.fastly.net -debugging 1
 SCRIPT
 }
