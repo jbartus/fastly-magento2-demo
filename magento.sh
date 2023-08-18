@@ -56,4 +56,4 @@ bin/magento cache:flush
 bin/magento fastly:conf:set --enable --service-id ${service_id} --token ${api_key}
 bin/magento fastly:conf:set --cache
 bin/magento fastly:conf:set --test-connection
-bin/magento fastly:conf:set --upload-vcl --activate
+bin/magento fastly:conf:set --upload-vcl true
