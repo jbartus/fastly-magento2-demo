@@ -11,9 +11,9 @@ systemctl start elasticsearch
 
 # mysql db and db user
 mysql <<SQL
-CREATE DATABASE magento;
-CREATE USER 'magento'@'localhost' IDENTIFIED BY 'magento-test-pass';
-GRANT ALL PRIVILEGES ON magento.* TO 'magento'@'localhost';
+CREATE DATABASE magento2;
+CREATE USER 'magento2'@'localhost' IDENTIFIED BY 'magento-test-pass';
+GRANT ALL PRIVILEGES ON magento2.* TO 'magento2'@'localhost';
 FLUSH PRIVILEGES;
 SET GLOBAL innodb_buffer_pool_size=4294967296;
 SQL

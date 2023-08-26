@@ -9,26 +9,19 @@ chmod u+x bin/magento
 
 # setup magento
 bin/magento setup:install \
- --base-url=https://${base_url}/ \
---backend-frontname="admin_fsly" \
---db-host=localhost \
---db-name=magento \
---db-user=magento \
---db-password=magento-test-pass \
 --admin-firstname=admin \
 --admin-lastname=admin \
 --admin-email=admin@admin.com \
 --admin-user=admin \
 --admin-password=fastly123 \
---language=en_US \
+--base-url=https://${base_url}/ \
+--backend-frontname="admin_fsly" \
 --currency=USD \
---timezone=America/Chicago \
---use-rewrites=1 \
---search-engine=elasticsearch7 \
---elasticsearch-host=localhost \
---elasticsearch-port=9200 \
---elasticsearch-index-prefix=magento2 \
---elasticsearch-timeout=15
+--db-user=magento2 \
+--db-password=magento-test-pass \
+--language=en_US \
+--timezone=America/New_York \
+--use-rewrites=1
 
 # disable 2FA since this is just a temporary demo site
 bin/magento module:disable Magento_TwoFactorAuth
@@ -57,3 +50,9 @@ bin/magento fastly:conf:set --enable --service-id ${service_id} --token ${api_ke
 bin/magento fastly:conf:set --cache
 bin/magento fastly:conf:set --test-connection
 bin/magento fastly:conf:set --upload-vcl true
+
+# set mode to prod
+bin/magento config:set dev/js/minify_files 1
+bin/magento config:set dev/css/minify_files 1
+bin/magento config:set dev/template/minify_html 1
+bin/magento deploy:mode:set production
