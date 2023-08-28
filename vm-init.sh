@@ -21,6 +21,7 @@ SQL
 # configure apache
 a2enmod rewrite
 a2enmod ssl
+a2enmod expires
 a2ensite default-ssl
 a2dissite 000-default
 
