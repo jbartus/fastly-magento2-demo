@@ -15,14 +15,14 @@
 ## diagrams
 ```mermaid
 flowchart LR
-  site[whoami-demo.edgecompute.app] --> xqd[compute service]
+  site[site-name.edgecompute.app] --> xqd[compute service]
   xqd --> secretstore
   xqd --> fastlyapi
 ```
 
 ```mermaid
 flowchart LR
-  site[whoami-demo.global.ssl.fastly.net] --> varnish[varnish service]
+  site[site-name.global.ssl.fastly.net] --> varnish[varnish service]
   varnish --> ngwaf
   ngwaf --> origin[origin vm]
   varnish --> bq[bigquery logs]
@@ -31,7 +31,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   rhvm[randomhack vm] --> container[randomhack container]
-  container --> site[whoami-demo.global.ssl.fastly.net]
+  container --> site[site-name.global.ssl.fastly.net]
   ptvm[puppeteer vm] --> scripts[puppeteer scripts]
   scripts --> site
 ``` 
