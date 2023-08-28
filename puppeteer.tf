@@ -33,7 +33,7 @@ resource "google_compute_instance" "puppeteer" {
       "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
       "nvm install node",
       "npm install puppeteer",
-      "export SITE_URL=https://${var.site_name}.global.ssl.fastly.net",
+      "export SITE_URL=https://${var.site_name}.freetls.fastly.net",
       "nohup bash -c 'while true; do node homepage.js && sleep `shuf -i 2-10 -n1`; done &'",
       "sleep 5 && nohup bash -c 'while true; do node promobutton.js && sleep `shuf -i 2-10 -n1`; done &'",
       "sleep 10 && nohup bash -c 'while true; do node shopper.js && sleep `shuf -i 2-10 -n1`; done &'",

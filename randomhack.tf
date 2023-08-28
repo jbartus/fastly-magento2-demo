@@ -29,6 +29,6 @@ resource "google_compute_instance" "random_hacker" {
 curl -fsSL https://get.docker.com | sh
 gcloud auth configure-docker --quiet
 sleep 10
-docker run --network host -d gcr.io/${var.google_project}/random-hack:latest /usr/src/app/main -target https://${var.site_name}.global.ssl.fastly.net -debugging 1
+docker run --network host -d gcr.io/${var.google_project}/random-hack:latest /usr/src/app/main -target https://${var.site_name}.freetls.fastly.net -debugging 1
 SCRIPT
 }
