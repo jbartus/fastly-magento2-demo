@@ -4,13 +4,8 @@ if(fastly.ff.visits_this_service == 0 && ratelimit.check_rate(client.ip, demo_rc
 }
 
 # example synthetic response
-if(req.method == "GET"){
-  if(req.url.path == "/geo" ) {
-    error 600;
-  }
-  if(req.url.path == "/favicon.ico"){
-    error 601;
-  }
+if(req.url.path == "/geo" ) {
+  error 600;
 }
 
 # test bypassing the cache
