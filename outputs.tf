@@ -8,7 +8,7 @@ output "tab1" {
 }
 
 output "tab2" {
-  value = "https://${var.site_name}.global.ssl.fastly.net"
+  value = "https://${var.site_name}.freetls.fastly.net"
 }
 
 output "tab3" {
