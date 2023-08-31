@@ -51,6 +51,6 @@ variable "google_zone" {
 }
 
 variable "randomhack" {
-  type = bool
+  type    = bool
   default = false
 }

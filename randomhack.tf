@@ -9,7 +9,7 @@ resource "google_project_iam_member" "random_hacker" {
 }
 
 resource "google_compute_instance" "random_hacker" {
-  count = var.randomhack == true ? 1 : 0
+  count                     = var.randomhack == true ? 1 : 0
   name                      = "${var.site_name}-random-hacker"
   machine_type              = "c3-standard-4"
   allow_stopping_for_update = true
