@@ -49,3 +49,8 @@ variable "google_zone" {
   type    = string
   default = "us-east1-b"
 }
+
+variable "randomhack" {
+  type = bool
+  default = false
+}
