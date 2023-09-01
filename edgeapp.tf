@@ -2,26 +2,13 @@
 ## example javascript compute@edge application 
 #######################################################################
 
-# workaround for not having a fastly_secretstore resource yet
-resource "terraform_data" "secret_store" {
-  provisioner "local-exec" {
-    when    = create
-    command = "fastly secret-store create --name secrets --quiet"
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "fastly secret-store delete --store-id=$(fastly secret-store list --json --quiet | jq '.[] | select(.name == \"secrets\") | .id' -r) --quiet"
-  }
-}
-
-data "external" "secret_store" {
-  program    = ["bash", "secret-store.sh"]
-  depends_on = [terraform_data.secret_store]
+resource "fastly_secretstore" "secret_store" {
+  name = "secrets"
 }
 
 resource "terraform_data" "secret_store_entry" {
   provisioner "local-exec" {
-    command = "printf ${var.fastly_api_key} | fastly secret-store-entry create --store-id=${data.external.secret_store.result.id} --name=fastly-key --quiet --stdin"
+    command = "printf ${var.fastly_api_key} | fastly secret-store-entry create --store-id=${fastly_secretstore.secret_store.id} --name=fastly-key --quiet --stdin"
   }
 }
 
@@ -64,7 +51,7 @@ resource "fastly_service_compute" "demo" {
   # link this app to the secret store containing the read-only fastly api key
   resource_link {
     name        = "secrets"
-    resource_id = data.external.secret_store.result.id
+    resource_id = fastly_secretstore.secret_store.id
   }
 
   force_destroy = true
