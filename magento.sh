@@ -16,7 +16,7 @@ sudo apt -y install elasticsearch
 sudo service elasticsearch start
 
 # configure webserver
-sudo apt -y install php php-zip php-curl php-xml php-gd php-intl php-mysql php-soap php-mbstring php-bcmath
+sudo apt -y install php php-zip php-curl php-xml php-gd php-intl php-mysql php-soap php-mbstring php-bcmath curl unzip
 sudo a2enmod rewrite
 sudo a2enmod expires
 
