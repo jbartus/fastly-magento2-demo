@@ -1,3 +1,42 @@
+# mysql db and db user
+sudo apt -y install mysql-server
+sudo mysql <<SQL
+CREATE DATABASE magento2;
+CREATE USER 'magento2'@'localhost' IDENTIFIED BY 'magento-test-pass';
+GRANT ALL PRIVILEGES ON magento2.* TO 'magento2'@'localhost';
+FLUSH PRIVILEGES;
+SET GLOBAL innodb_buffer_pool_size=4294967296;
+SQL
+
+# install elasticsearch
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
+echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt update
+sudo apt -y install elasticsearch
+sudo service elasticsearch start
+
+# configure webserver
+sudo apt -y install php php-zip php-curl php-xml php-gd php-intl php-mysql php-soap php-mbstring php-bcmath curl unzip
+sudo a2enmod rewrite
+sudo a2enmod expires
+
+# enable .htaccess
+sudo tee -a /etc/apache2/sites-available/default-ssl.conf <<EOF > /dev/null
+<Directory "/var/www/html">
+        AllowOverride All
+</Directory>
+EOF
+
+# move the docroot
+sudo mkdir /var/www/html/magento2
+sudo chown ubuntu:www-data /var/www/html/magento2
+sudo chmod g+ws /var/www/html/magento2
+sudo sed -i 's;DocumentRoot /var/www/html;DocumentRoot /var/www/html/magento2;' /etc/apache2/sites-available/default-ssl.conf
+sudo service apache2 restart
+
+# install composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
 # install the magento code
 composer -g config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition="2.4.5" /var/www/html/magento2
@@ -26,12 +65,8 @@ bin/magento setup:install \
 # disable 2FA since this is just a temporary demo site
 bin/magento module:disable Magento_TwoFactorAuth
 
-# configure magento repo credentials
-# used by composer during sampledata deploy and admin web ui
-composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
-chmod g+r auth.json
-
 # configure sampledata for a demo site
+composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
