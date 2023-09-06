@@ -39,7 +39,7 @@ curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/loca
 
 # install the magento code
 composer -g config http-basic.repo.magento.com ${repo_user} ${repo_pass}
-composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition="2.4.5" /var/www/html/magento2
+composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition="2.4.6" /var/www/html/magento2
 cd /var/www/html/magento2
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
@@ -63,6 +63,7 @@ bin/magento setup:install \
 --use-rewrites=1
 
 # disable 2FA since this is just a temporary demo site
+bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth
 bin/magento module:disable Magento_TwoFactorAuth
 
 # configure sampledata for a demo site
