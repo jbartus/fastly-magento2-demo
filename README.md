@@ -47,6 +47,7 @@ flowchart LR
 - a GCP account with access to the SE development project
 
 ## howto
+the flowchart boxes correspond to which sections of steps to follow below
 
 ```mermaid
 flowchart TD
@@ -62,6 +63,7 @@ flowchart TD
 ### first time setup
 #### if using a github codespace
 - click the green "Code" button at the top of the github repo
+- click the Codespaces tab within the modal
 - click the green "Create codespace..." button
 - watch and wait for it to setup (takes ~5m)
 
@@ -94,7 +96,7 @@ flowchart TD
 #### configure authentication(s)
 - create a fastly api token for your user ([creating api tokens](https://docs.fastly.com/en/guides/using-api-tokens#creating-api-tokens))
 - configure the fastly cli with it   
-    `fastly profile create`
+    `fastly profile create`  
 - configure the google terraform provider's access  
     `gcloud auth application-default login`
 - edit `terraform.tfvars`
@@ -106,3 +108,8 @@ flowchart TD
 - `terraform apply`
 - click the links
 - `terraform destroy`
+
+### cleanup (if using codespaces)
+- in the same github web modal that you created the codespace you will now see it listed with a random name
+- click the "..." next to it
+- click Delete
