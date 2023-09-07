@@ -99,7 +99,7 @@ flowchart TD
     `fastly profile create`  
 - configure the google terraform provider's access  
     `gcloud auth application-default login`
-- edit `terraform.tfvars`
+- click on the file named `terraform.tfvars` in the left menu and populate its values
   - use the same fastly api key from the cli (`fastly profile token`)
   - populate the two `magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
   - populate the three `sigsci_` variables ([see here for how to create an api key](https://docs.fastly.com/signalsciences/developer/using-our-api/#managing-api-access-tokens))
