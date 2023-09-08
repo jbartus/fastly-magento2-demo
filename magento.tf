@@ -3,8 +3,7 @@
 #######################################################################
 
 resource "terraform_data" "magento_setup" {
-  # wait for the waf to be done so the magento plugin's vcl activation doesn't step on it
-  depends_on = [sigsci_edge_deployment_service.ngwaf_edge_demo_link]
+  count = var.magento == true ? 1 : 0
 
   connection {
     type        = "ssh"

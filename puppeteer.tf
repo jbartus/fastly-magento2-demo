@@ -1,4 +1,5 @@
 resource "google_compute_instance" "puppeteer" {
+  count                     = var.puppeteer == true ? 1 : 0
   name                      = "${var.site_name}-puppeteer"
   machine_type              = "c3-standard-4"
   depends_on                = [fastly_service_vcl.demo_service, terraform_data.magento_setup]

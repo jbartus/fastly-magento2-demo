@@ -2,26 +2,8 @@ variable "site_name" {
   type = string
 }
 
-variable "magento_pub_key" {
-  type = string
-}
-
-variable "magento_priv_key" {
-  type = string
-}
-
 variable "fastly_api_key" {
   type = string
-}
-
-variable "ssh_pub_key" {
-  type    = string
-  default = "~/.ssh/id_rsa.pub"
-}
-
-variable "ssh_priv_key" {
-  type    = string
-  default = "~/.ssh/id_rsa"
 }
 
 variable "sigsci_corp" {
@@ -50,7 +32,32 @@ variable "google_zone" {
   default = "us-east1-b"
 }
 
+variable "ssh_pub_key" {
+  type    = string
+  default = "~/.ssh/id_rsa.pub"
+}
+
+variable "ssh_priv_key" {
+  type    = string
+  default = "~/.ssh/id_rsa"
+}
+
+variable "magento" {
+  type = bool
+}
+
+variable "magento_pub_key" {
+  type = string
+}
+
+variable "magento_priv_key" {
+  type = string
+}
+
+variable "puppeteer" {
+  type = bool
+}
+
 variable "randomhack" {
-  type    = bool
-  default = false
+  type = bool
 }
