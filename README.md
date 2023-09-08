@@ -47,33 +47,22 @@ flowchart LR
 - a GCP account with access to the SE development project
 
 ## howto
-the flowchart boxes correspond to which sections of steps to follow below
-
-```mermaid
-flowchart TD
-  first[first time setup] --> codespace[github codespaces]
-  first --> localdc[vscode locally with devcontainer]
-  first --> mac[mac arm with regular/local tooling]
-  codespace --> auth[configure authentication]
-  localdc --> auth
-  mac --> auth
-  auth -->test[test loop]
-```
-
 ### first time setup
-#### if using a github codespace
+chose one of the following three options for where to run this from
+
+#### a github codespace
 - click the green "Code" button at the top of the github repo
 - click the Codespaces tab within the modal
 - click the green "Create codespace..." button
 - watch and wait for it to setup (takes ~5m)
 
-#### if using vscode locally with devcontainer
+#### locally using vscode with a devcontainer
 - install the devcontainer extension in vscode
 - open this folder in the devcontainer
 - wait for it (takes ~5m)
 - open another terminal to work in
 
-#### if using a mac (arm) with regular/local tooling
+#### install dependencies on an M1/M2 mac with homebrew
 [click here ](README.mac-arm.md)
 
 #### configure authentication(s)
