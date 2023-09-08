@@ -1,8 +1,11 @@
 site_name        = ""
 fastly_api_key   = ""
-magento_pub_key  = ""
-magento_priv_key = ""
 sigsci_corp      = ""
 sigsci_email     = ""
 sigsci_token     = ""
 google_project   = ""
+magento          = false
+magento_pub_key  = ""
+magento_priv_key = ""
+puppeteer        = false
+randomhack       = false
