@@ -4,7 +4,7 @@
 
 resource "google_compute_instance" "demo_origin_instance" {
   name         = "${var.site_name}-origin"
-  machine_type = "n2-standard-4"
+  machine_type = "n2-standard-8"
   zone         = "us-west1-a"
   tags         = ["https-server"]
 
@@ -25,5 +25,5 @@ resource "google_compute_instance" "demo_origin_instance" {
   }
 
   # configure a minmial secure webserver
-  metadata_startup_script = "apt update && apt -y install apache2 && a2enmod ssl && a2ensite default-ssl && a2dissite 000-default && service apache2 restart && usermod -a -G www-data ubuntu"
+  metadata_startup_script = "apt update && apt -y upgrade && apt -y install apache2 && a2enmod ssl && a2ensite default-ssl && a2dissite 000-default && service apache2 restart && usermod -a -G www-data ubuntu"
 }
