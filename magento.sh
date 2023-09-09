@@ -76,6 +76,7 @@ composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+bin/magento setup:upgrade
 
 # install the fastly module
 composer config repositories.fastly-magento2 git "https://github.com/fastly/fastly-magento2.git"
