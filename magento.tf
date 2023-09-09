@@ -12,6 +12,12 @@ resource "terraform_data" "magento_setup" {
     host        = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 10; done",
+    ]
+  }
+
   provisioner "file" {
     source      = "magento.sh"
     destination = "magento.sh"
