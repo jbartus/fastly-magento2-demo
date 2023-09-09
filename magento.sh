@@ -1,5 +1,18 @@
-# mysql db and db user
-sudo apt -y install mysql-server
+#!/bin/bash
+set -xe
+
+# configure elasticsearch repo
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
+echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt update
+
+# install packages
+sudo apt -y install php mysql-server elasticsearch php-mysql php-zip php-curl php-xml php-gd php-intl php-soap php-mbstring php-bcmath curl unzip
+
+# start elasticsearch
+sudo service elasticsearch start
+
+# setup db
 sudo mysql <<SQL
 CREATE DATABASE magento2;
 CREATE USER 'magento2'@'localhost' IDENTIFIED BY 'magento-test-pass';
@@ -8,15 +21,7 @@ FLUSH PRIVILEGES;
 SET GLOBAL innodb_buffer_pool_size=4294967296;
 SQL
 
-# install elasticsearch
-curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
-echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
-sudo apt update
-sudo apt -y install elasticsearch
-sudo service elasticsearch start
-
 # configure webserver
-sudo apt -y install php php-zip php-curl php-xml php-gd php-intl php-mysql php-soap php-mbstring php-bcmath curl unzip
 sudo a2enmod rewrite
 sudo a2enmod expires
 
@@ -71,7 +76,6 @@ composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-bin/magento setup:upgrade
 
 # install the fastly module
 composer config repositories.fastly-magento2 git "https://github.com/fastly/fastly-magento2.git"
