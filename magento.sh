@@ -57,9 +57,9 @@ bin/magento setup:install \
 --admin-lastname=admin \
 --admin-email=admin@admin.com \
 --admin-user=admin \
---admin-password=fastly123 \
+--admin-password=demo123 \
 --base-url=https://${base_url}/ \
---backend-frontname="admin_fsly" \
+--backend-frontname="admin_demo" \
 --currency=USD \
 --db-user=magento2 \
 --db-password=magento-test-pass \
@@ -77,20 +77,6 @@ bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 bin/magento setup:upgrade
-
-# install the fastly module
-composer config repositories.fastly-magento2 git "https://github.com/fastly/fastly-magento2.git"
-composer require fastly/magento2
-bin/magento module:enable Fastly_Cdn
-bin/magento setup:upgrade
-bin/magento setup:di:compile
-bin/magento cache:flush
-
-# configure the fastly module
-bin/magento fastly:conf:set --enable --service-id ${service_id} --token ${api_key}
-bin/magento fastly:conf:set --cache
-bin/magento fastly:conf:set --test-connection
-bin/magento fastly:conf:set --upload-vcl true
 
 # set mode to prod
 bin/magento config:set dev/js/minify_files 1
