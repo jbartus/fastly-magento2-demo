@@ -43,9 +43,11 @@ sudo service apache2 restart
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
 # install the magento code
-composer -g config http-basic.repo.magento.com ${repo_user} ${repo_pass}
+composer --global config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 composer create-project --no-interaction --repository-url=https://repo.magento.com/ magento/project-community-edition="2.4.6" /var/www/html/magento2
 cd /var/www/html/magento2
+mv ~/.config/composer/auth.json .
+chmod g+r auth.json
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 chown -R :www-data .
@@ -72,7 +74,6 @@ bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth
 bin/magento module:disable Magento_TwoFactorAuth
 
 # configure sampledata for a demo site
-composer config http-basic.repo.magento.com ${repo_user} ${repo_pass}
 bin/magento sampledata:deploy
 find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
