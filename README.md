@@ -11,6 +11,7 @@
 - spools up some attack tooling to generate traffic and graph data
 
 # diagrams
+## edgeapp
 ```mermaid
 flowchart LR
   site[site-name.edgecompute.app] --> xqd[compute service]
@@ -18,22 +19,16 @@ flowchart LR
   xqd --> fastlyapi
 ```
 
+## website
 ```mermaid
 flowchart LR
-  site[site-name.freetls.fastly.net] --> varnish[varnish service]
+  puppeteer --> site[site-name.freetls.fastly.net]
+  randomhack --> site
+  site --> varnish[varnish service]
   varnish --> ngwaf
   ngwaf --> origin[origin vm]
   varnish --> bq[bigquery logs]
 ```
-
-```mermaid
-flowchart LR
-  rhvm[randomhack vm] --> container[randomhack container]
-  container --> site[site-name.freetls.fastly.net]
-  ptvm[puppeteer vm] --> scripts[puppeteer scripts]
-  scripts --> site
-``` 
-
 
 # pre-reqs
 - a fastly account with the following feature flags enabled
