@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -xeo pipefail
 
 # configure elasticsearch repo
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
@@ -7,7 +7,7 @@ echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.
 sudo apt update
 
 # install packages
-sudo apt -y install php mysql-server elasticsearch php-mysql php-zip php-curl php-xml php-gd php-intl php-soap php-mbstring php-bcmath curl unzip
+sudo DEBIAN_FRONTEND=noninteractive apt -y install curl unzip elasticsearch mysql-server php libapache2-mod-php php-curl php-gd php-intl php-bcmath php-mbstring php-mysql php-soap php-xml php-zip
 
 # start elasticsearch
 sudo service elasticsearch start

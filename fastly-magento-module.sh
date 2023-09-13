@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -xeo pipefail
 
 cd /var/www/html/magento2
 
