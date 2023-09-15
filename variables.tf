@@ -54,6 +54,10 @@ variable "magento_priv_key" {
   type = string
 }
 
+variable "wordpress" {
+  type = bool
+}
+
 variable "puppeteer" {
   type = bool
 }
