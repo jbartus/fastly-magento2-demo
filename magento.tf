@@ -24,7 +24,8 @@ resource "terraform_data" "magento_setup" {
 
   provisioner "remote-exec" {
     inline = [
-      "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 10; done"
+      "until grep -q 'startup-script exit status 0' /var/log/syslog; do sleep 10; done",
+      "sudo usermod -a -G www-data ubuntu"
     ]
   }
 
