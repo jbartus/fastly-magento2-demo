@@ -8,7 +8,7 @@ resource "terraform_data" "magento_setup" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("~/.ssh/id_rsa")
+    private_key = file("${var.ssh_priv_key}")
     host        = google_compute_instance.demo_origin_instance.network_interface.0.access_config.0.nat_ip
   }
 
