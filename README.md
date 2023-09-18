@@ -43,19 +43,19 @@ flowchart LR
 ## first time setup
 chose one of the following three options for where to run this from
 
-### 1 - a github codespace
+### option 1 - a github codespace
 - click the green "Code" button at the top of the github repo
 - click the Codespaces tab within the modal
 - click the green "Create codespace..." button
 - watch and wait for it to setup (takes ~5m)
 
-### 2 - locally using vscode with a devcontainer
+### option 2 - locally using vscode with a devcontainer
 - install the devcontainer extension in vscode
 - open this folder in the devcontainer
 - wait for it (takes ~5m)
 - open another terminal to work in
 
-### 3 - install dependencies on an M1/M2 mac with homebrew
+### option 3 - install dependencies on an M1/M2 mac with homebrew
 [click here ](README.mac-arm.md)
 
 ### configure authentication(s)
