@@ -20,3 +20,37 @@ resource "sigsci_edge_deployment_service" "ngwaf_edge_demo_link" {
   activate_version = true
   percent_enabled  = 100
 }
+
+# create a list
+resource "sigsci_corp_list" "sanctioned-countries" {
+  name        = "Sanctioned Countries"
+  type        = "country"
+  description = "List of Sanctioned Countries"
+  entries = [
+    "RU",
+    "CU",
+    "KP",
+    "IR"
+  ]
+}
+
+# block traffic using the list
+resource "sigsci_corp_rule" "sanctions" {
+  depends_on     = [sigsci_corp_list.sanctioned-countries]
+  reason         = "sanctions"
+  enabled        = true
+  corp_scope     = "global"
+  type           = "request"
+  expiration     = ""
+  requestlogging = "sampled"
+  group_operator = "any"
+  conditions {
+    type     = "single"
+    field    = "country"
+    operator = "inList"
+    value    = "corp.sanctioned-countries"
+  }
+  actions {
+    type = "block"
+  }
+}
