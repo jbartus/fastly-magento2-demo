@@ -5,6 +5,11 @@ resource "google_compute_instance" "puppeteer" {
   depends_on                = [fastly_service_vcl.demo_service, terraform_data.magento_setup]
   allow_stopping_for_update = true
 
+  scheduling {
+    preemptible       = true
+    automatic_restart = false
+  }
+
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2304-amd64"

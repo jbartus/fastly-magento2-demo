@@ -13,19 +13,28 @@ resource "google_compute_instance" "random_hacker" {
   name                      = "${var.site_name}-random-hacker"
   machine_type              = "c3-standard-4"
   allow_stopping_for_update = true
+
+  scheduling {
+    preemptible       = true
+    automatic_restart = false
+  }
+
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2304-amd64"
     }
   }
+
   network_interface {
     network = "default"
     access_config {}
   }
+
   service_account {
     email  = google_service_account.random_hacker.email
     scopes = ["https://www.googleapis.com/auth/devstorage.read_only"]
   }
+
   metadata_startup_script = <<SCRIPT
 curl -fsSL https://get.docker.com | sh
 gcloud auth configure-docker --quiet
