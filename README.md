@@ -36,6 +36,7 @@ flowchart LR
   - `secret_store`
   - `io_entitlement`
   - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
+  - also, you must navigate to the compute tab in the fastly web interface and enable your compute trial, if you haven't already, by deploying any compute service
 - a sigsci account (corp)
 - a GCP account with access to the SE development project
 
