@@ -14,6 +14,11 @@ composer require hyva-themes/magento2-default-theme --prefer-source
 
 bin/magento setup:upgrade
 
-# Navigate to the Content > Design > Configuration admin section and activate the hyva/default theme.
+composer require yireo/magento2-theme-commands
+bin/magento module:enable Yireo_ThemeCommands
+bin/magento theme:change Hyva/default
 
 bin/magento setup:static-content:deploy
+bin/magento config:set customer/captcha/enable 0
+bin/magento cache:clean
+bin/magento cache:flush
