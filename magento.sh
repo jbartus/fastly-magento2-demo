@@ -37,6 +37,7 @@ sudo mkdir /var/www/html/magento2
 sudo chown ubuntu:www-data /var/www/html/magento2
 sudo chmod g+ws /var/www/html/magento2
 sudo sed -i 's;DocumentRoot /var/www/html;DocumentRoot /var/www/html/magento2;' /etc/apache2/sites-available/default-ssl.conf
+sudo sync
 sudo service apache2 restart
 
 # install composer
