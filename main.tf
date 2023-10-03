@@ -8,11 +8,6 @@ resource "google_compute_instance" "demo_origin_instance" {
   zone         = "us-west1-a"
   tags         = ["https-server"]
 
-  scheduling {
-    preemptible       = true
-    automatic_restart = false
-  }
-
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2304-amd64"

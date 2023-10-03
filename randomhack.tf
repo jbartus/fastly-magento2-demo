@@ -14,11 +14,6 @@ resource "google_compute_instance" "random_hacker" {
   machine_type              = "c3-standard-4"
   allow_stopping_for_update = true
 
-  scheduling {
-    preemptible       = true
-    automatic_restart = false
-  }
-
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2304-amd64"
