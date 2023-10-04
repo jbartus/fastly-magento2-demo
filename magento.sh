@@ -10,6 +10,7 @@ sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt -y install curl unzip elasticsearch mysql-server php libapache2-mod-php php-curl php-gd php-intl php-bcmath php-mbstring php-mysql php-soap php-xml php-zip
 
 # start elasticsearch
+sudo systemctl enable elasticsearch
 sudo service elasticsearch start
 
 # setup db
