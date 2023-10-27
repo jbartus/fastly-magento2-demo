@@ -7,10 +7,13 @@ composer config repositories.hyva-themes/magento2-theme-module git git@gitlab.hy
 composer config repositories.hyva-themes/magento2-reset-theme git git@gitlab.hyva.io:hyva-themes/magento2-reset-theme.git
 composer config repositories.hyva-themes/magento2-email-module git git@gitlab.hyva.io:hyva-themes/magento2-email-module.git
 composer config repositories.hyva-themes/magento2-default-theme git git@gitlab.hyva.io:hyva-themes/magento2-default-theme.git
+composer config repositories.hyva-themes/magento2-compat-module-fallback git git@gitlab.hyva.io:hyva-themes/magento2-compat-module-fallback.git
+composer config repositories.hyva-themes/magento2-fastly-cdn git git@gitlab.hyva.io:hyva-themes/hyva-compat/magento2-fastly-cdn.git
 
 ssh-keyscan gitlab.hyva.io >> ~/.ssh/known_hosts
 
 composer require hyva-themes/magento2-default-theme --prefer-source
+composer require hyva-themes/magento2-fastly-cdn:dev-main
 
 bin/magento setup:upgrade
 
