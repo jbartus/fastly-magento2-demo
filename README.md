@@ -69,6 +69,7 @@ chose one of the following three options for where to run this from
   - use the same fastly api key from the cli (`fastly profile token`)
   - populate the two `magento_repo` variables ([see here for how to get them](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html))  
   - populate the three `sigsci_` variables ([see here for how to create an api key](https://docs.fastly.com/signalsciences/developer/using-our-api/#managing-api-access-tokens))
+  - if enabling hyva configure the location of the private key that matches the public you uploaded to ([hyva's gitlab](https://docs.hyva.io/hyva-themes/getting-started/#for-contributions-and-for-technology-partners))
 
 ## test loop
 - `terraform apply`
