@@ -54,6 +54,14 @@ variable "magento_priv_key" {
   type = string
 }
 
+variable "hyva" {
+  type = bool
+}
+
+variable "hyva_ssh_priv_key" {
+  type = string
+}
+
 variable "wordpress" {
   type = bool
 }
