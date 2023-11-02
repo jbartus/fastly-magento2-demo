@@ -46,3 +46,6 @@ apache_modules:
 EOF
 
 wp rewrite structure '/%postname%/' --hard
+
+# support uploads
+sudo chown -R ubuntu:www-data /var/www/html/wp-content/uploads
