@@ -10,7 +10,7 @@ resource "google_compute_instance" "demo_origin_instance" {
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2304-amd64"
+      image = "ubuntu-os-cloud/ubuntu-2310-amd64"
     }
   }
 
