@@ -16,7 +16,7 @@ resource "google_compute_instance" "random_hacker" {
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2304-amd64"
+      image = "ubuntu-os-cloud/ubuntu-2310-amd64"
     }
   }
 
