@@ -4,22 +4,12 @@
 - long term: a resource for managing bespoke partner demonstration environments
 
 # what does it do
-- deploys a javascript compute@edge application that uses geoip data, a secret-store, and makes an api call
 - creates a virtual machine on google cloud, installs magento and the fastly magento plugin
 - creates a fastly service with edge rate-limiting, image-optimizaiton and bigquery logging to sit in front of it
 - attaches an ngwaf@edge deployment to the service
 - spools up some attack tooling to generate traffic and graph data
 
-# diagrams
-## edgeapp
-```mermaid
-flowchart LR
-  site[site-name.edgecompute.app] --> xqd[compute service]
-  xqd --> secretstore
-  xqd --> fastlyapi
-```
-
-## website
+# diagram
 ```mermaid
 flowchart LR
   puppeteer --> site[site-name.freetls.fastly.net]
@@ -33,7 +23,6 @@ flowchart LR
 # pre-reqs
 - a fastly account with the following feature flags enabled
   - `security_ui`
-  - `secret_store`
   - `io_entitlement`
   - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
   - also, you must navigate to the compute tab in the fastly web interface and enable your compute trial, if you haven't already, by deploying any compute service
