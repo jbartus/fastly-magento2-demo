@@ -3,10 +3,6 @@ output "fastly_sid" {
   value       = fastly_service_vcl.demo_service.id
 }
 
-output "edgeapp" {
-  value = "https://${var.site_name}.edgecompute.app"
-}
-
 output "vcl-svc" {
   value = "https://${var.site_name}.freetls.fastly.net"
 }
