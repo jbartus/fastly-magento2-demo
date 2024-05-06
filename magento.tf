@@ -3,8 +3,6 @@
 #######################################################################
 
 resource "terraform_data" "magento_setup" {
-  count = var.magento == true ? 1 : 0
-
   connection {
     type        = "ssh"
     user        = "ubuntu"
