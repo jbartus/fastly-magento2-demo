@@ -54,25 +54,3 @@ resource "sigsci_corp_rule" "sanctions" {
     type = "block"
   }
 }
-
-resource "sigsci_site_rule" "nobotcomments" {
-  site_short_name = sigsci_edge_deployment.ngwaf_edge_demo.site_short_name
-  type            = "request"
-  group_operator  = "all"
-  enabled         = true
-  reason          = "no yapping"
-  requestlogging  = "sampled"
-  expiration      = ""
-
-  conditions {
-    type     = "single"
-    field    = "path"
-    operator = "equals"
-    value    = "/wp-comments-post.php"
-  }
-
-  actions {
-    type = "browserChallenge"
-  }
-
-}

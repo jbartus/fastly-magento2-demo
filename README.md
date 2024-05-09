@@ -1,11 +1,8 @@
 # what is this
-- short term: a place for me to learn and rough out minimal examples of fastly products with terraform
-- medium term: a foundation on which to build live product demonstrations
-- long term: a resource for managing bespoke partner demonstration environments
+An example configuration using terraform to create a magento site on gcp with fastly in front of it.
 
 # what does it do
 - creates a virtual machine on google cloud, installs magento and the fastly magento plugin
-- creates a fastly service with edge rate-limiting, image-optimizaiton and bigquery logging to sit in front of it
 - attaches an ngwaf@edge deployment to the service
 - spools up some attack tooling to generate traffic and graph data
 
@@ -17,15 +14,11 @@ flowchart LR
   site --> varnish[varnish service]
   varnish --> ngwaf
   ngwaf --> origin[origin vm]
-  varnish --> bq[bigquery logs]
 ```
 
 # pre-reqs
 - a fastly account with the following feature flags enabled
-  - `security_ui`
   - `io_entitlement`
-  - `rate_limiting` with [hctl commands](https://fastly.atlassian.net/wiki/spaces/CustomerEngineering/pages/50804572197/Rate+Limiting+Enablement#Heavenly-commands%3A)
-  - also, you must navigate to the compute tab in the fastly web interface and enable your compute trial, if you haven't already, by deploying any compute service
 - a sigsci account (corp)
 - a GCP account with access to the SE development project
 
